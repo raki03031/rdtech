@@ -1,127 +1,92 @@
-// ==== Firebase Config (replace with yours) ====
+// ==== Firebase Config (replace with your values) ====
 const firebaseConfig = {
   apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_APP.firebaseapp.com",
-  projectId: "YOUR_APP",
-  storageBucket: "YOUR_APP.appspot.com",
+  authDomain: "YOUR_PROJECT.firebaseapp.com",
+  projectId: "YOUR_PROJECT",
+  storageBucket: "YOUR_PROJECT.appspot.com",
   messagingSenderId: "YOUR_SENDER_ID",
   appId: "YOUR_APP_ID"
 };
 
-// Init Firebase
+// Init
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const storage = firebase.storage();
 const db = firebase.firestore();
 
-// ==== DOM Elements ====
+// DOM Elements
 const loginPage = document.getElementById("loginPage");
 const appPage = document.getElementById("appPage");
 const filesGrid = document.getElementById("filesGrid");
 const loginBtn = document.getElementById("loginBtn");
 const guestBtn = document.getElementById("guestBtn");
 const logoutBtn = document.getElementById("logoutBtn");
+const userDisplay = document.getElementById("userDisplay");
 const showUploadBtn = document.getElementById("showUploadBtn");
 const uploadModal = document.getElementById("uploadModal");
-const closeModal = document.getElementById("closeModal");
-const browseBtn = document.getElementById("browseBtn");
 const fileInput = document.getElementById("fileInput");
-const uploadList = document.getElementById("uploadList");
 const startUploadBtn = document.getElementById("startUploadBtn");
-const userDisplay = document.getElementById("userDisplay");
+const closeModal = document.getElementById("closeModal");
 
-let selectedFiles = [];
-
-// ==== Login ====
-loginBtn.addEventListener("click", () => {
+// Login
+loginBtn.onclick = () => {
   const email = document.getElementById("username").value;
-  const password = document.getElementById("password").value;
-
-  auth.signInWithEmailAndPassword(email, password)
-    .then(user => {
-      showAppPage(user.user.email);
-    })
-    .catch(err => alert(err.message));
-});
-
-// Guest login
-guestBtn.addEventListener("click", () => {
+  const pass = document.getElementById("password").value;
+  auth.signInWithEmailAndPassword(email, pass)
+    .then(u => showApp(u.user.email))
+    .catch(e => alert(e.message));
+};
+guestBtn.onclick = () => {
   auth.signInAnonymously()
-    .then(() => showAppPage("Guest"))
-    .catch(err => alert(err.message));
-});
+    .then(() => showApp("Guest"))
+    .catch(e => alert(e.message));
+};
+logoutBtn.onclick = () => { auth.signOut(); loginPage.style.display="block"; appPage.style.display="none"; };
 
-// Logout
-logoutBtn.addEventListener("click", () => {
-  auth.signOut().then(() => {
-    appPage.style.display = "none";
-    loginPage.style.display = "flex";
-  });
-});
-
-// ==== Show Pages ====
-function showAppPage(username) {
+// Show app
+function showApp(user) {
   loginPage.style.display = "none";
-  appPage.style.display = "block";
-  userDisplay.textContent = "Welcome, " + username;
+  appPage.style.display = "flex";
+  userDisplay.textContent = "Welcome, " + user;
   loadFiles();
 }
 
-// ==== Upload Modal ====
-showUploadBtn.addEventListener("click", () => uploadModal.classList.add("active"));
-closeModal.addEventListener("click", () => uploadModal.classList.remove("active"));
-browseBtn.addEventListener("click", () => fileInput.click());
-fileInput.addEventListener("change", e => {
-  selectedFiles = e.target.files;
-  renderUploadList();
-});
+// Upload modal
+showUploadBtn.onclick = () => uploadModal.classList.add("active");
+closeModal.onclick = () => uploadModal.classList.remove("active");
 
-// Render upload list
-function renderUploadList() {
-  uploadList.innerHTML = "";
-  Array.from(selectedFiles).forEach(f => {
-    let div = document.createElement("div");
-    div.className = "upload-item";
-    div.innerHTML = `<div>${f.name}</div><div>${(f.size/1024/1024).toFixed(2)} MB</div>`;
-    uploadList.appendChild(div);
-  });
-}
-
-// Start Upload
-startUploadBtn.addEventListener("click", async () => {
-  for (let f of selectedFiles) {
+// Upload
+startUploadBtn.onclick = async () => {
+  const files = fileInput.files;
+  if(!files.length) return alert("Select a file!");
+  for (let f of files) {
     const ref = storage.ref("uploads/" + f.name);
     await ref.put(f);
     const url = await ref.getDownloadURL();
     await db.collection("files").add({
-      name: f.name,
-      size: (f.size/1024/1024).toFixed(2) + " MB",
-      url,
-      date: new Date().toLocaleDateString()
+      name:f.name, size:(f.size/1024/1024).toFixed(2)+" MB", url,
+      date:new Date().toLocaleString()
     });
   }
-  alert("Upload complete!");
+  alert("Uploaded!");
   uploadModal.classList.remove("active");
   loadFiles();
-});
+};
 
-// ==== Load Files ====
+// Load files
 async function loadFiles() {
   filesGrid.innerHTML = "";
-  const snap = await db.collection("files").orderBy("date", "desc").get();
+  const snap = await db.collection("files").orderBy("date","desc").get();
   snap.forEach(doc => {
-    const file = doc.data();
-    const div = document.createElement("div");
-    div.className = "file-card";
-    div.innerHTML = `
-      <div class="file-icon"><i class="far fa-file"></i></div>
-      <div class="file-name">${file.name}</div>
-      <div class="file-details">
-        <span>${file.size}</span>
-        <span>${file.date}</span>
-      </div>
-      <a href="${file.url}" target="_blank" class="btn" style="margin-top:8px;display:block;text-align:center;">Download</a>
+    const f = doc.data();
+    const card = document.createElement("div");
+    card.className="file-card";
+    card.innerHTML = `
+      <div class="file-icon"><i class="fas fa-file"></i></div>
+      <div class="file-name">${f.name}</div>
+      <div class="file-details"><span>${f.size}</span><span>${f.date}</span></div>
+      <a href="${f.url}" target="_blank" class="btn primary" style="margin-top:10px;">Download</a>
     `;
-    filesGrid.appendChild(div);
+    filesGrid.appendChild(card);
   });
 }
