@@ -1489,14 +1489,66 @@
       });
     }
 
+
+    // ... (existing code remains the same until the download functions)
+
     // File actions
     function downloadFileById(fileId) {
       const file = [...sampleFiles, ...uploadedFiles].find(f => f.id == fileId);
       if (file) {
-        // In a real app, this would download the actual file
-        alert(`Downloading: ${file.name}`);
+        // Create a dummy content based on file type
+        let content = "";
+        let mimeType = "";
+
+        switch (file.type) {
+          case 'pdf':
+            mimeType = 'application/pdf';
+            content = '%PDF-1.4\n%This is a dummy PDF file for demonstration purposes.';
+            break;
+          case 'doc':
+            mimeType = 'application/msword';
+            content = 'This is a dummy Word document for demonstration purposes.';
+            break;
+          case 'txt':
+            mimeType = 'text/plain';
+            content = 'This is a dummy text file for demonstration purposes.';
+            break;
+          case 'image':
+            mimeType = 'image/png';
+            // Using a small transparent PNG as placeholder
+            content = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=';
+            break;
+          default:
+            mimeType = 'application/octet-stream';
+            content = 'This is a dummy file for demonstration purposes.';
+        }
+
+        // Create a blob from the content
+        const blob = new Blob([content], { type: mimeType });
+        const url = URL.createObjectURL(blob);
+
+        // Create a temporary anchor element to trigger download
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = file.name;
+        document.body.appendChild(a);
+        a.click();
+
+        // Clean up
+        setTimeout(() => {
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+        }, 100);
       }
     }
+
+    function downloadFile() {
+      if (selectedFile) {
+        downloadFileById(selectedFile.id);
+      }
+    }
+
+  // ... (rest of the existing code remains the same)
 
     function showPreview(fileId) {
       const file = [...sampleFiles, ...uploadedFiles].find(f => f.id == fileId);
@@ -1659,6 +1711,55 @@
 
     // Initialize the app when the DOM is loaded
     document.addEventListener('DOMContentLoaded', init);
+  </script>
+  <script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-analytics.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyBc6Vv0c77J3pktRuqgDQdXtfrwXkW06Lg",
+      authDomain: "edushear-92b44.firebaseapp.com",
+      projectId: "edushear-92b44",
+      storageBucket: "edushear-92b44.firebasestorage.app",
+      messagingSenderId: "493000206733",
+      appId: "1:493000206733:web:b5067827f0706b292cb5c4",
+      measurementId: "G-D1WLLZT7LQ"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    const storage = getStorage(app);
+
+    // Upload file to Firebase
+    async function uploadFile(file) {
+      const storageRef = ref(storage, "uploads/" + file.name);
+      await uploadBytes(storageRef, file);
+      const url = await getDownloadURL(storageRef);
+      return { name: file.name, url };
+    }
+
+    // List files from Firebase
+    async function listFiles() {
+      const listRef = ref(storage, "uploads/");
+      const res = await listAll(listRef);
+      const urls = await Promise.all(res.items.map(item => getDownloadURL(item)));
+      return res.items.map((item, i) => ({ name: item.name, url: urls[i] }));
+    }
+
+    // Example: connect to your file input
+    document.getElementById("fileInput").addEventListener("change", async (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const uploaded = await uploadFile(file);
+        alert("Uploaded: " + uploaded.url);
+      }
+    });
   </script>
 </body>
 
