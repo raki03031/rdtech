@@ -1,56 +1,1355 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RDTech Share</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduShare - File Sharing Platform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --accent1: #4a6fa5;
+            --accent2: #2c3e50;
+            --accent-light: #ffd43b;
+            --bg1: #0f1226;
+            --glass: rgba(255, 255, 255, 0.06);
+            --glass-2: rgba(255, 255, 255, 0.03);
+            --text: #f7f7fb;
+            --success: #4CAF50;
+            --warning: #FFC107;
+            --danger: #F44336;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+
+        body {
+            background: radial-gradient(1000px 600px at 10% 10%, rgba(74, 111, 165, 0.08), transparent 10%),
+                        radial-gradient(900px 500px at 90% 90%, rgba(255, 212, 59, 0.06), transparent 12%),
+                        linear-gradient(180deg, var(--accent2) 0%, #151728 100%);
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+            padding: 0;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Header styles */
+        header {
+            background: rgba(15, 18, 38, 0.8);
+            backdrop-filter: blur(8px);
+            padding: 16px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo i {
+            font-size: 24px;
+            color: var(--accent-light);
+        }
+
+        .logo h1 {
+            font-size: 22px;
+            margin: 0;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .user-info img {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--accent1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Main content area */
+        main {
+            flex: 1;
+            padding: 30px 40px;
+            overflow-y: auto;
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* Dashboard styles */
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .upload-btn {
+            background: linear-gradient(90deg, var(--accent1), var(--accent-light));
+            border: none;
+            color: #111;
+            padding: 10px 20px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            box-shadow: 0 8px 30px rgba(74, 111, 165, 0.12);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .upload-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 35px rgba(74, 111, 165, 0.2);
+        }
+
+        .files-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        .file-card {
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.02));
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: 0 8px 24px rgba(6, 6, 10, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(8px);
+            transition: transform 0.2s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .file-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 255, 255, 0.08);
+        }
+
+        .file-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            background: var(--accent1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+            font-size: 20px;
+        }
+
+        .file-name {
+            font-weight: 600;
+            margin-bottom: 6px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .file-details {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            opacity: 0.7;
+            margin-bottom: 12px;
+        }
+
+        .file-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .action-btn {
+            flex: 1;
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+        }
+
+        .download-btn {
+            background: var(--accent1);
+            color: white;
+        }
+
+        .download-btn:hover {
+            background: #3d5d8f;
+        }
+
+        .review-btn {
+            background: var(--glass);
+            color: var(--text);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .review-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Upload modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: linear-gradient(180deg, rgba(30, 33, 55, 0.9), rgba(20, 23, 40, 0.9));
+            border-radius: 16px;
+            padding: 24px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 24px;
+            cursor: pointer;
+            opacity: 0.7;
+        }
+
+        .close-btn:hover {
+            opacity: 1;
+        }
+
+        .drop-zone {
+            border: 2px dashed rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 40px 20px;
+            text-align: center;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .drop-zone.active {
+            border-color: var(--accent-light);
+            background: rgba(255, 212, 59, 0.05);
+        }
+
+        .drop-zone i {
+            font-size: 42px;
+            margin-bottom: 12px;
+            color: var(--accent-light);
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .browse-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: var(--text);
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .browse-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .upload-list {
+            margin-top: 20px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .upload-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+            margin-bottom: 8px;
+        }
+
+        .upload-item-name {
+            font-size: 14px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            flex: 1;
+        }
+
+        .upload-item-remove {
+            color: #ff6b6b;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        /* Review modal */
+        .review-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .review-modal.active {
+            display: flex;
+        }
+
+        .review-content {
+            background: linear-gradient(180deg, rgba(30, 33, 55, 0.9), rgba(20, 23, 40, 0.9));
+            border-radius: 16px;
+            padding: 24px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .review-file-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .review-file-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background: var(--accent1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        .review-file-details {
+            flex: 1;
+        }
+
+        .review-file-name {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .review-file-meta {
+            font-size: 12px;
+            opacity: 0.7;
+        }
+
+        .rating {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin: 20px 0;
+        }
+
+        .rating-star {
+            font-size: 28px;
+            color: #555;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .rating-star.active {
+            color: var(--accent-light);
+        }
+
+        .review-text {
+            width: 100%;
+            background: var(--glass-2);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            padding: 12px 14px;
+            border-radius: 12px;
+            color: var(--text);
+            outline: none;
+            font-size: 15px;
+            margin-bottom: 20px;
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .submit-review {
+            background: linear-gradient(90deg, var(--accent1), var(--accent-light));
+            border: none;
+            color: #111;
+            padding: 12px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+            box-shadow: 0 8px 30px rgba(74, 111, 165, 0.12);
+            transition: all 0.3s ease;
+        }
+
+        .submit-review:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 35px rgba(74, 111, 165, 0.2);
+        }
+
+        /* Login page styles */
+        .login-container {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+        }
+
+        /* floating particle blobs */
+        .blob {
+            position: absolute;
+            filter: blur(40px) saturate(120%);
+            opacity: 0.85;
+            mix-blend-mode: screen;
+            border-radius: 50%;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .blob.a {
+            width: 420px;
+            height: 420px;
+            background: linear-gradient(135deg, var(--accent1), #3b5998);
+            left: -120px;
+            top: -60px;
+            animation-duration: 10s;
+        }
+
+        .blob.b {
+            width: 320px;
+            height: 320px;
+            background: linear-gradient(135deg, var(--accent-light), #78a6ff);
+            right: -100px;
+            bottom: -80px;
+            animation-duration: 12s;
+            opacity: 0.6;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) translateX(0); }
+            50% { transform: translateY(-24px) translateX(12px); }
+            100% { transform: translateY(0) translateX(0); }
+        }
+
+        /* main container */
+        .wrap {
+            width: 100%;
+            max-width: 980px;
+            display: grid;
+            grid-template-columns: 1fr 420px;
+            gap: 32px;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* left: hero */
+        .hero {
+            padding: 28px;
+            color: var(--text);
+        }
+
+        .logo-anim {
+            width: 160px;
+            height: 160px;
+            border-radius: 18px;
+            background: conic-gradient(from 200deg, var(--accent1), #3b5998, var(--accent-light));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6), inset 0 -6px 30px rgba(255, 255, 255, 0.06);
+            transform: rotate(-12deg) translateZ(0);
+            animation: logo-bounce 1600ms ease infinite;
+        }
+
+        .logo-anim i {
+            font-size: 70px;
+            color: white;
+            filter: drop-shadow(0 6px 18px rgba(0, 0, 0, 0.45));
+        }
+
+        @keyframes logo-bounce {
+            0% { transform: rotate(-12deg) translateY(0); }
+            50% { transform: rotate(-10deg) translateY(-12px); }
+            100% { transform: rotate(-12deg) translateY(0); }
+        }
+
+        h1 {
+            font-size: 32px;
+            margin: 18px 0 8px;
+            letter-spacing: 0.6px;
+        }
+
+        p.lead {
+            opacity: 0.85;
+            margin: 0 0 18px;
+            line-height: 1.35;
+        }
+
+        .features {
+            display: flex;
+            gap: 12px;
+            margin-top: 18px;
+            flex-wrap: wrap;
+        }
+
+        .chip {
+            padding: 8px 12px;
+            background: var(--glass);
+            backdrop-filter: blur(6px);
+            border-radius: 999px;
+            font-size: 13px;
+            opacity: 0.95;
+        }
+
+        /* right: login card */
+        .card {
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.02));
+            border-radius: 18px;
+            padding: 22px;
+            box-shadow: 0 10px 40px rgba(6, 6, 10, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(8px);
+        }
+
+        .card h2 {
+            margin: 6px 0 14px;
+            font-size: 18px;
+        }
+
+        .form-row {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .input {
+            background: var(--glass-2);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            padding: 12px 14px;
+            border-radius: 12px;
+            color: var(--text);
+            outline: none;
+            font-size: 15px;
+            transition: transform .18s ease, box-shadow .18s ease, border-color .12s;
+        }
+
+        .input:focus {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(12, 12, 20, 0.45);
+            border-color: rgba(255, 255, 255, 0.09);
+        }
+
+        .btn {
+            margin-top: 6px;
+            background: linear-gradient(90deg, var(--accent1), var(--accent-light));
+            border: none;
+            color: #111;
+            padding: 12px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 0 8px 30px rgba(74, 111, 165, 0.12);
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 35px rgba(74, 111, 165, 0.2);
+        }
+
+        .btn.secondary {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        .btn.secondary:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .small-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+            font-size: 13px;
+            opacity: 0.9;
+        }
+
+        .socials {
+            display: flex;
+            gap: 10px;
+            margin-top: 14px;
+        }
+
+        .social {
+            flex: 1;
+            padding: 10px;
+            border-radius: 10px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .social:hover {
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateY(-2px);
+        }
+
+        .or {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 14px 0;
+            opacity: 0.7;
+        }
+
+        .or:before, .or:after {
+            content: "";
+            height: 1px;
+            background: rgba(255, 255, 255, 0.03);
+            flex: 1;
+            border-radius: 2px;
+        }
+
+        /* small animated sparks (top right) */
+        .spark {
+            position: absolute;
+            right: 22px;
+            top: 12px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.7);
+            opacity: 0.08;
+            box-shadow: 0 0 14px rgba(255, 255, 255, 0.12);
+            animation: blink 2s linear infinite;
+        }
+
+        .spark.s2 {
+            right: 60px;
+            top: 34px;
+            animation-delay: .4s;
+        }
+
+        .spark.s3 {
+            right: 30px;
+            top: 66px;
+            animation-delay: .9s;
+        }
+
+        @keyframes blink {
+            0% { transform: scale(.6); opacity: .05; }
+            50% { transform: scale(1.6); opacity: .9; }
+            100% { transform: scale(.6); opacity: .05; }
+        }
+
+        /* error shake */
+        .shake {
+            animation: shake .5s;
+        }
+
+        @keyframes shake {
+            10% { transform: translateX(-6px); }
+            30% { transform: translateX(6px); }
+            50% { transform: translateX(-6px); }
+            70% { transform: translateX(6px); }
+            100% { transform: translateX(0); }
+        }
+
+        /* responsiveness */
+        @media (max-width: 880px) {
+            .wrap {
+                grid-template-columns: 1fr;
+                gap: 18px;
+                padding: 18px;
+            }
+            
+            .hero {
+                order: 2;
+                text-align: center;
+            }
+            
+            .logo-anim {
+                margin: 0 auto;
+            }
+            
+            .files-grid {
+                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            }
+            
+            header {
+                padding: 16px 20px;
+            }
+            
+            main {
+                padding: 20px;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="blob a"></div>
-  <div class="blob b"></div>
+    <!-- Login Page -->
+    <div id="loginPage" class="login-container">
+        <div class="blob a" aria-hidden="true"></div>
+        <div class="blob b" aria-hidden="true"></div>
 
-  <!-- Login -->
-  <div id="loginPage" class="card">
-    <h1>RDTech Share</h1>
-    <p>Upload, preview & download files with ease.</p>
-    <input id="username" class="input" type="email" placeholder="Email">
-    <input id="password" class="input" type="password" placeholder="Password">
-    <button id="loginBtn" class="btn primary">Login</button>
-    <button id="guestBtn" class="btn secondary">Continue as Guest</button>
-  </div>
+        <div class="wrap" role="main">
+            <div class="hero">
+                <div class="logo-anim" aria-hidden="true">
+                    <i class="fas fa-file-import"></i>
+                </div>
 
-  <!-- App -->
-  <div id="appPage">
-    <header>
-      <h2>📂 RDTech Files</h2>
-      <div>
-        <span id="userDisplay">Welcome</span>
-        <button id="logoutBtn" class="btn secondary">Logout</button>
-        <button id="showUploadBtn" class="btn primary upload-btn">Upload</button>
-      </div>
-    </header>
-    <div id="filesGrid" class="files-grid"></div>
-  </div>
+                <h1>EDUSHARE</h1>
+                <p class="lead">Share educational resources securely. Upload, preview, and collaborate on documents with your classmates and teachers.</p>
 
-  <!-- Upload Modal -->
-  <div id="uploadModal" class="modal">
-    <div class="modal-content">
-      <h3>Upload File</h3>
-      <input type="file" id="fileInput" multiple>
-      <button id="startUploadBtn" class="btn primary">Upload</button>
-      <button id="closeModal" class="btn secondary">Cancel</button>
+                <div class="features" aria-hidden="true">
+                    <div class="chip">Secure Sharing</div>
+                    <div class="chip">Class Groups</div>
+                    <div class="chip">Annotations</div>
+                </div>
+            </div>
+
+            <div class="card" id="card">
+                <div style="position:relative">
+                    <span class="spark"></span>
+                    <span class="spark s2"></span>
+                    <span class="spark s3"></span>
+                    <h2>EDUSHARE LOGIN</h2>
+                </div>
+
+                <div class="form-row">
+                    <input id="username" class="input" type="text" placeholder="Enter username or email" autocomplete="username" />
+                    <input id="password" class="input" type="password" placeholder="Password" autocomplete="current-password" />
+                    <button id="loginBtn" class="btn">LOGIN</button>
+                    <button id="guestBtn" class="btn secondary">Continue as Guest</button>
+
+                    <div class="or"><span>or</span></div>
+
+                    <div class="socials">
+                        <div class="social" id="googleBtn">Google</div>
+                        <div class="social" id="microsoftBtn">Microsoft</div>
+                    </div>
+
+                    <div class="small-row" style="margin-top:12px">
+                        <label style="display:flex;align-items:center;gap:8px">
+                            <input type="checkbox" id="rememberMe" /> Remember me
+                        </label>
+                        <a href="#" style="color:rgba(255,255,255,0.8);text-decoration:none">Forgot password?</a>
+                    </div>
+                    
+                    <div class="small-row" style="justify-content: center; margin-top: 20px;">
+                        <span>Don't have an account? <a href="#" style="color:var(--accent-light);text-decoration:none">Sign up</a></span>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
 
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"></script>
+    <!-- Main App (initially hidden) -->
+    <div id="appPage" style="display: none;">
+        <header>
+            <div class="logo">
+                <i class="fas fa-file-import"></i>
+                <h1>EDUSHARE</h1>
+            </div>
+            <div class="user-info">
+                <span id="userDisplay">Welcome, User</span>
+                <div id="userAvatar" style="width: 36px; height: 36px; border-radius: 50%; background: var(--accent1); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;"></div>
+                <button id="logoutBtn" class="btn secondary">Logout</button>
+            </div>
+        </header>
 
-  <!-- App Logic -->
-  <script src="app.js"></script>
+        <main>
+            <div id="dashboardPage" class="page active">
+                <div class="dashboard-header">
+                    <h2>Shared Files</h2>
+                    <button id="showUploadBtn" class="upload-btn">
+                        <i class="fas fa-cloud-upload-alt"></i> Upload File
+                    </button>
+                </div>
+
+                <div class="files-grid" id="filesGrid">
+                    <!-- Files will be dynamically added here -->
+                </div>
+            </div>
+        </main>
+
+        <!-- Upload Modal -->
+        <div id="uploadModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Upload Files</h3>
+                    <button class="close-btn" id="closeModal">&times;</button>
+                </div>
+                <div class="drop-zone" id="dropZone">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <p>Drag & drop files here or click to browse</p>
+                    <button class="browse-btn" id="browseBtn">Browse Files</button>
+                    <input type="file" id="fileInput" class="file-input" multiple>
+                </div>
+                <div class="upload-list" id="uploadList">
+                    <!-- Upload queue will appear here -->
+                </div>
+                <button id="startUploadBtn" class="btn" style="width: 100%; margin-top: 20px;">Upload Files</button>
+            </div>
+        </div>
+
+        <!-- Review Modal -->
+        <div id="reviewModal" class="review-modal">
+            <div class="review-content">
+                <div class="review-header">
+                    <h3>Review File</h3>
+                    <button class="close-btn" id="closeReviewModal">&times;</button>
+                </div>
+                <div class="review-file-info">
+                    <div class="review-file-icon">
+                        <i class="far fa-file-pdf" id="reviewFileIcon"></i>
+                    </div>
+                    <div class="review-file-details">
+                        <div class="review-file-name" id="reviewFileName">File Name</div>
+                        <div class="review-file-meta" id="reviewFileMeta">2.4 MB · PDF</div>
+                    </div>
+                </div>
+                <div class="rating">
+                    <span class="rating-star" data-value="1">★</span>
+                    <span class="rating-star" data-value="2">★</span>
+                    <span class="rating-star" data-value="3">★</span>
+                    <span class="rating-star" data-value="4">★</span>
+                    <span class="rating-star" data-value="5">★</span>
+                </div>
+                <textarea class="review-text" placeholder="Write your review here..."></textarea>
+                <button class="submit-review" id="submitReviewBtn">Submit Review</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // File Storage and Management
+        class FileManager {
+            constructor() {
+                this.files = JSON.parse(localStorage.getItem('edushare_files')) || [];
+                this.currentUser = localStorage.getItem('edushare_user') || 'Guest';
+            }
+            
+            // Add a new file
+            addFile(file) {
+                const newFile = {
+                    id: Date.now().toString(),
+                    name: file.name,
+                    type: this.getFileType(file.name),
+                    size: this.formatFileSize(file.size),
+                    date: new Date().toLocaleDateString(),
+                    owner: this.currentUser,
+                    reviews: []
+                };
+                
+                this.files.push(newFile);
+                this.saveFiles();
+                return newFile;
+            }
+            
+            // Get all files (shared with all users)
+            getAllFiles() {
+                return this.files;
+            }
+            
+            // Get file by ID
+            getFileById(id) {
+                return this.files.find(file => file.id === id);
+            }
+            
+            // Add review to a file
+            addReview(fileId, rating, comment) {
+                const file = this.getFileById(fileId);
+                if (file) {
+                    file.reviews.push({
+                        user: this.currentUser,
+                        rating,
+                        comment,
+                        date: new Date().toLocaleDateString()
+                    });
+                    this.saveFiles();
+                }
+            }
+            
+            // Get file type from extension
+            getFileType(filename) {
+                const extension = filename.split('.').pop().toLowerCase();
+                if (['pdf'].includes(extension)) return 'pdf';
+                if (['doc', 'docx'].includes(extension)) return 'doc';
+                if (['ppt', 'pptx'].includes(extension)) return 'ppt';
+                if (['xls', 'xlsx'].includes(extension)) return 'xls';
+                if (['jpg', 'jpeg', 'png', 'gif', 'bmp'].includes(extension)) return 'image';
+                if (['zip', 'rar', '7z'].includes(extension)) return 'zip';
+                return 'file';
+            }
+            
+            // Format file size
+            formatFileSize(bytes) {
+                if (bytes === 0) return '0 Bytes';
+                const k = 1024;
+                const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+            }
+            
+            // Save files to localStorage
+            saveFiles() {
+                localStorage.setItem('edushare_files', JSON.stringify(this.files));
+            }
+        }
+
+        // UI Controller
+        class UIController {
+            constructor(fileManager) {
+                this.fileManager = fileManager;
+                this.currentlyReviewingFileId = null;
+                this.setupEventListeners();
+            }
+            
+            // Setup all event listeners
+            setupEventListeners() {
+                // Login functionality
+                document.getElementById('loginBtn').addEventListener('click', () => this.handleLogin());
+                document.getElementById('guestBtn').addEventListener('click', () => this.handleGuestLogin());
+                document.getElementById('logoutBtn').addEventListener('click', () => this.handleLogout());
+                
+                // Upload modal functionality
+                document.getElementById('showUploadBtn').addEventListener('click', () => this.showUploadModal());
+                document.getElementById('closeModal').addEventListener('click', () => this.hideUploadModal());
+                
+                // File upload functionality
+                document.getElementById('browseBtn').addEventListener('click', () => document.getElementById('fileInput').click());
+                document.getElementById('fileInput').addEventListener('change', (e) => this.handleFileSelect(e));
+                document.getElementById('dropZone').addEventListener('dragover', (e) => this.handleDragOver(e));
+                document.getElementById('dropZone').addEventListener('drop', (e) => this.handleDrop(e));
+                document.getElementById('startUploadBtn').addEventListener('click', () => this.handleFileUpload());
+                
+                // Review modal functionality
+                document.getElementById('closeReviewModal').addEventListener('click', () => this.hideReviewModal());
+                document.getElementById('submitReviewBtn').addEventListener('click', () => this.submitReview());
+                
+                // Rating stars
+                document.querySelectorAll('.rating-star').forEach(star => {
+                    star.addEventListener('click', (e) => this.setRating(parseInt(e.target.getAttribute('data-value'))));
+                });
+            }
+            
+            // Show the main application page
+            showAppPage(username) {
+                document.getElementById('loginPage').style.display = 'none';
+                document.getElementById('appPage').style.display = 'block';
+                document.getElementById('userDisplay').textContent = `Welcome, ${username}`;
+                document.getElementById('userAvatar').textContent = username.charAt(0).toUpperCase();
+                
+                this.renderFiles();
+            }
+            
+            // Show the login page
+            showLoginPage() {
+                document.getElementById('loginPage').style.display = 'flex';
+                document.getElementById('appPage').style.display = 'none';
+            }
+            
+            // Render files to the grid
+            renderFiles() {
+                const filesGrid = document.getElementById('filesGrid');
+                filesGrid.innerHTML = '';
+                
+                const files = this.fileManager.getAllFiles();
+                
+                if (files.length === 0) {
+                    filesGrid.innerHTML = `
+                        <div style="grid-column: 1 / -1; text-align: center; padding: 40px; opacity: 0.7;">
+                            <i class="far fa-folder-open" style="font-size: 48px; margin-bottom: 16px;"></i>
+                            <p>No files shared yet. Upload the first file!</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                // File type icons mapping
+                const fileIcons = {
+                    pdf: 'file-pdf',
+                    doc: 'file-word',
+                    ppt: 'file-powerpoint',
+                    xls: 'file-excel',
+                    image: 'file-image',
+                    zip: 'file-archive',
+                    file: 'file'
+                };
+                
+                files.forEach(file => {
+                    const fileCard = document.createElement('div');
+                    fileCard.className = 'file-card';
+                    fileCard.innerHTML = `
+                        <div class="file-icon">
+                            <i class="far fa-${fileIcons[file.type] || fileIcons.file}"></i>
+                        </div>
+                        <div class="file-name">${file.name}</div>
+                        <div class="file-details">
+                            <span>${file.size}</span>
+                            <span>${file.date}</span>
+                        </div>
+                        <div class="file-details">
+                            <span>By: ${file.owner}</span>
+                            <span>${file.reviews.length} reviews</span>
+                        </div>
+                        <div class="file-actions">
+                            <button class="action-btn download-btn" data-file-id="${file.id}">
+                                <i class="fas fa-download"></i> Download
+                            </button>
+                            <button class="action-btn review-btn" data-file-id="${file.id}">
+                                <i class="fas fa-star"></i> Review
+                            </button>
+                        </div>
+                    `;
+                    filesGrid.appendChild(fileCard);
+                    
+                    // Add event listeners to action buttons
+                    fileCard.querySelector('.download-btn').addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        this.downloadFile(file.id);
+                    });
+                    
+                    fileCard.querySelector('.review-btn').addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        this.showReviewModal(file.id);
+                    });
+                });
+            }
+            
+            // Handle login
+            handleLogin() {
+                const username = document.getElementById('username').value.trim();
+                const password = document.getElementById('password').value.trim();
+                const rememberMe = document.getElementById('rememberMe').checked;
+                
+                if (!username || !password) {
+                    this.showToast('Please enter both username and password');
+                    return;
+                }
+                
+                // Save user data
+                if (rememberMe) {
+                    localStorage.setItem('edushare_username', username);
+                    localStorage.setItem('edushare_remember', 'true');
+                }
+                
+                localStorage.setItem('edushare_loggedin', 'true');
+                localStorage.setItem('edushare_user', username);
+                this.fileManager.currentUser = username;
+                
+                this.showToast('Login successful!');
+                this.showAppPage(username);
+            }
+            
+            // Handle guest login
+            handleGuestLogin() {
+                localStorage.setItem('edushare_loggedin', 'true');
+                localStorage.setItem('edushare_user', 'Guest');
+                this.fileManager.currentUser = 'Guest';
+                
+                this.showToast('Continuing as guest...');
+                this.showAppPage('Guest');
+            }
+            
+            // Handle logout
+            handleLogout() {
+                localStorage.removeItem('edushare_loggedin');
+                localStorage.removeItem('edushare_user');
+                
+                this.showToast('Logged out successfully');
+                this.showLoginPage();
+            }
+            
+            // Show upload modal
+            showUploadModal() {
+                document.getElementById('uploadModal').classList.add('active');
+            }
+            
+            // Hide upload modal
+            hideUploadModal() {
+                document.getElementById('uploadModal').classList.remove('active');
+                document.getElementById('uploadList').innerHTML = '';
+            }
+            
+            // Handle file selection
+            handleFileSelect(e) {
+                const files = e.target.files;
+                if (files.length > 0) {
+                    this.processFiles(files);
+                }
+            }
+            
+            // Handle drag over
+            handleDragOver(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                document.getElementById('dropZone').classList.add('active');
+            }
+            
+            // Handle file drop
+            handleDrop(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                document.getElementById('dropZone').classList.remove('active');
+                
+                const files = e.dataTransfer.files;
+                if (files.length > 0) {
+                    this.processFiles(files);
+                }
+            }
+            
+            // Process selected files
+            processFiles(files) {
+                const uploadList = document.getElementById('uploadList');
+                uploadList.innerHTML = '';
+                
+                for (let i = 0; i < files.length; i++) {
+                    const file = files[i];
+                    const listItem = document.createElement('div');
+                    listItem.className = 'upload-item';
+                    listItem.innerHTML = `
+                        <div class="upload-item-name">${file.name}</div>
+                        <div class="upload-item-remove" data-index="${i}">&times;</div>
+                    `;
+                    uploadList.appendChild(listItem);
+                    
+                    // Add event listener to remove button
+                    listItem.querySelector('.upload-item-remove').addEventListener('click', (e) => {
+                        e.target.parentElement.remove();
+                    });
+                }
+            }
+            
+            // Handle file upload
+            handleFileUpload() {
+                const uploadList = document.getElementById('uploadList');
+                if (uploadList.children.length === 0) {
+                    this.showToast('Please select files to upload');
+                    return;
+                }
+                
+                // In a real app, you would upload files to a server here
+                // For this demo, we'll simulate the upload process
+                const fileInput = document.getElementById('fileInput');
+                for (let i = 0; i < fileInput.files.length; i++) {
+                    const file = fileInput.files[i];
+                    this.fileManager.addFile(file);
+                }
+                
+                this.showToast('Files uploaded successfully!');
+                this.hideUploadModal();
+                this.renderFiles();
+            }
+            
+            // Download file
+            downloadFile(fileId) {
+                const file = this.fileManager.getFileById(fileId);
+                if (file) {
+                    this.showToast(`Downloading ${file.name}...`);
+                    // In a real app, this would trigger an actual download
+                    // For demo purposes, we'll just simulate it
+                    setTimeout(() => {
+                        this.showToast(`${file.name} downloaded successfully!`);
+                    }, 1500);
+                }
+            }
+            
+            // Show review modal
+            showReviewModal(fileId) {
+                const file = this.fileManager.getFileById(fileId);
+                if (file) {
+                    this.currentlyReviewingFileId = fileId;
+                    
+                    // Set file info in modal
+                    document.getElementById('reviewFileName').textContent = file.name;
+                    document.getElementById('reviewFileMeta').textContent = `${file.size} · ${file.type.toUpperCase()}`;
+                    
+                    // Set file icon
+                    const fileIcons = {
+                        pdf: 'file-pdf',
+                        doc: 'file-word',
+                        ppt: 'file-powerpoint',
+                        xls: 'file-excel',
+                        image: 'file-image',
+                        zip: 'file-archive',
+                        file: 'file'
+                    };
+                    document.getElementById('reviewFileIcon').className = `far fa-${fileIcons[file.type] || fileIcons.file}`;
+                    
+                    // Reset rating and comment
+                    this.setRating(0);
+                    document.querySelector('.review-text').value = '';
+                    
+                    // Show modal
+                    document.getElementById('reviewModal').classList.add('active');
+                }
+            }
+            
+            // Hide review modal
+            hideReviewModal() {
+                document.getElementById('reviewModal').classList.remove('active');
+                this.currentlyReviewingFileId = null;
+            }
+            
+            // Set rating stars
+            setRating(rating) {
+                const stars = document.querySelectorAll('.rating-star');
+                stars.forEach(star => {
+                    const value = parseInt(star.getAttribute('data-value'));
+                    if (value <= rating) {
+                        star.classList.add('active');
+                    } else {
+                        star.classList.remove('active');
+                    }
+                });
+            }
+            
+            // Submit review
+            submitReview() {
+                if (!this.currentlyReviewingFileId) return;
+                
+                // Get rating
+                const activeStars = document.querySelectorAll('.rating-star.active');
+                const rating = activeStars.length;
+                
+                if (rating === 0) {
+                    this.showToast('Please select a rating');
+                    return;
+                }
+                
+                // Get comment
+                const comment = document.querySelector('.review-text').value.trim();
+                
+                // Add review
+                this.fileManager.addReview(this.currentlyReviewingFileId, rating, comment);
+                
+                this.showToast('Review submitted successfully!');
+                this.hideReviewModal();
+                this.renderFiles();
+            }
+            
+            // Show toast notification
+            showToast(msg) {
+                const t = document.createElement('div');
+                t.textContent = msg;
+                Object.assign(t.style, {
+                    position: 'fixed',
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                    bottom: '28px',
+                    background: 'rgba(0, 0, 0, 0.6)',
+                    color: '#fff',
+                    padding: '10px 14px',
+                    borderRadius: '10px',
+                    zIndex: 9999,
+                    transition: 'opacity 0.3s ease'
+                });
+                document.body.appendChild(t);
+                setTimeout(() => t.style.opacity = '0', 1800);
+                setTimeout(() => t.remove(), 2600);
+            }
+        }
+
+        // Initialize the application
+        function initApp() {
+            // Create file manager
+            const fileManager = new FileManager();
+            
+            // Create UI controller
+            const uiController = new UIController(fileManager);
+            
+            // Check if user is logged in
+            const isLoggedIn = localStorage.getItem('edushare_loggedin') === 'true';
+            const username = localStorage.getItem('edushare_user') || 'User';
+            
+            if (isLoggedIn) {
+                uiController.showAppPage(username);
+            } else {
+                uiController.showLoginPage();
+            }
+        }
+
+        // Initialize the app when DOM is loaded
+        document.addEventListener('DOMContentLoaded', initApp);
+    </script>
 </body>
 </html>
