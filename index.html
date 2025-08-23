@@ -220,6 +220,15 @@
             background: rgba(255, 255, 255, 0.1);
         }
 
+        .preview-btn {
+            background: var(--accent-light);
+            color: #111;
+        }
+
+        .preview-btn:hover {
+            background: #e6bc2c;
+        }
+
         /* Upload modal */
         .modal {
             display: none;
@@ -398,6 +407,11 @@
         .review-file-name {
             font-weight: 600;
             margin-bottom: 4px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
 
         .review-file-meta {
@@ -454,6 +468,209 @@
         .submit-review:hover {
             transform: translateY(-2px);
             box-shadow: 0 10px 35px rgba(74, 111, 165, 0.2);
+        }
+
+        /* Preview page styles */
+        .preview-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .preview-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .back-btn {
+            background: var(--glass);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            color: var(--text);
+            padding: 10px 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .preview-content {
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.02));
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 8px 24px rgba(6, 6, 10, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(8px);
+            margin-bottom: 24px;
+        }
+
+        .preview-file-info {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .preview-file-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            background: var(--accent1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .preview-file-details {
+            flex: 1;
+        }
+
+        .preview-file-name {
+            font-weight: 600;
+            font-size: 20px;
+            margin-bottom: 6px;
+        }
+
+        .preview-file-meta {
+            display: flex;
+            gap: 16px;
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        .preview-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .preview-main-btn {
+            background: linear-gradient(90deg, var(--accent1), var(--accent-light));
+            border: none;
+            color: #111;
+            padding: 12px 20px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 0 8px 30px rgba(74, 111, 165, 0.12);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .preview-main-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 35px rgba(74, 111, 165, 0.2);
+        }
+
+        .preview-secondary-btn {
+            background: var(--glass);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            color: var(--text);
+            padding: 12px 20px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .preview-secondary-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .preview-area {
+            background: var(--glass-2);
+            border-radius: 12px;
+            padding: 20px;
+            min-height: 400px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .preview-area i {
+            font-size: 64px;
+            margin-bottom: 16px;
+            opacity: 0.7;
+        }
+
+        .preview-area p {
+            opacity: 0.8;
+            max-width: 400px;
+            line-height: 1.5;
+        }
+
+        .file-reviews {
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.02));
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 8px 24px rgba(6, 6, 10, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(8px);
+        }
+
+        .file-reviews h3 {
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+
+        .review-item {
+            padding: 16px;
+            background: var(--glass-2);
+            border-radius: 12px;
+            margin-bottom: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .reviewer {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .review-date {
+            font-size: 12px;
+            opacity: 0.7;
+        }
+
+        .review-rating {
+            color: var(--accent-light);
+            margin-bottom: 8px;
+        }
+
+        .review-comment {
+            font-size: 14px;
+            line-height: 1.5;
+            opacity: 0.9;
+        }
+
+        .no-reviews {
+            text-align: center;
+            padding: 40px;
+            opacity: 0.7;
         }
 
         /* Login page styles */
@@ -621,6 +838,10 @@
             cursor: pointer;
             box-shadow: 0 8px 30px rgba(74, 111, 165, 0.12);
             transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
 
         .btn:hover {
@@ -760,6 +981,15 @@
             main {
                 padding: 20px;
             }
+            
+            .preview-file-info {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .preview-actions {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
@@ -848,6 +1078,56 @@
                     <!-- Files will be dynamically added here -->
                 </div>
             </div>
+
+            <!-- Preview Page -->
+            <div id="previewPage" class="page">
+                <div class="preview-container">
+                    <div class="preview-header">
+                        <button id="backToDashboard" class="back-btn">
+                            <i class="fas fa-arrow-left"></i> Back to Files
+                        </button>
+                        <h2>File Preview</h2>
+                    </div>
+
+                    <div class="preview-content">
+                        <div class="preview-file-info">
+                            <div class="preview-file-icon" id="previewFileIcon">
+                                <i class="far fa-file"></i>
+                            </div>
+                            <div class="preview-file-details">
+                                <div class="preview-file-name" id="previewFileName">File Name</div>
+                                <div class="preview-file-meta" id="previewFileMeta">
+                                    <span id="previewFileSize">0 KB</span>
+                                    <span id="previewFileType">PDF</span>
+                                    <span id="previewFileDate">Jan 1, 2023</span>
+                                    <span id="previewFileOwner">By: User</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="preview-actions">
+                            <button id="downloadPreviewBtn" class="preview-main-btn">
+                                <i class="fas fa-download"></i> Download File
+                            </button>
+                            <button id="reviewPreviewBtn" class="preview-secondary-btn">
+                                <i class="fas fa-star"></i> Add Review
+                            </button>
+                        </div>
+
+                        <div class="preview-area" id="previewArea">
+                            <i class="fas fa-file"></i>
+                            <p>Preview not available for this file type. Download to view the file.</p>
+                        </div>
+                    </div>
+
+                    <div class="file-reviews">
+                        <h3>Reviews</h3>
+                        <div id="reviewsList">
+                            <!-- Reviews will be dynamically added here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
         </main>
 
         <!-- Upload Modal -->
@@ -855,18 +1135,17 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h3>Upload Files</h3>
-                    <button class="close-btn" id="closeModal">&times;</button>
+                    <button class="close-btn">&times;</button>
                 </div>
                 <div class="drop-zone" id="dropZone">
                     <i class="fas fa-cloud-upload-alt"></i>
-                    <p>Drag & drop files here or click to browse</p>
-                    <button class="browse-btn" id="browseBtn">Browse Files</button>
+                    <p>Drag and drop files here or click to browse</p>
                     <input type="file" id="fileInput" class="file-input" multiple>
+                    <button class="browse-btn">Browse Files</button>
                 </div>
                 <div class="upload-list" id="uploadList">
-                    <!-- Upload queue will appear here -->
+                    <!-- Uploaded files will be listed here -->
                 </div>
-                <button id="startUploadBtn" class="btn" style="width: 100%; margin-top: 20px;">Upload Files</button>
             </div>
         </div>
 
@@ -875,481 +1154,467 @@
             <div class="review-content">
                 <div class="review-header">
                     <h3>Review File</h3>
-                    <button class="close-btn" id="closeReviewModal">&times;</button>
+                    <button class="close-btn">&times;</button>
                 </div>
                 <div class="review-file-info">
-                    <div class="review-file-icon">
-                        <i class="far fa-file-pdf" id="reviewFileIcon"></i>
+                    <div class="review-file-icon" id="reviewFileIcon">
+                        <i class="far fa-file"></i>
                     </div>
                     <div class="review-file-details">
                         <div class="review-file-name" id="reviewFileName">File Name</div>
-                        <div class="review-file-meta" id="reviewFileMeta">2.4 MB · PDF</div>
+                        <div class="review-file-meta" id="reviewFileMeta">PDF • 2.4 MB</div>
                     </div>
                 </div>
-                <div class="rating">
-                    <span class="rating-star" data-value="1">★</span>
-                    <span class="rating-star" data-value="2">★</span>
-                    <span class="rating-star" data-value="3">★</span>
-                    <span class="rating-star" data-value="4">★</span>
-                    <span class="rating-star" data-value="5">★</span>
+                <div class="rating" id="ratingStars">
+                    <span class="rating-star" data-value="1">☆</span>
+                    <span class="rating-star" data-value="2">☆</span>
+                    <span class="rating-star" data-value="3">☆</span>
+                    <span class="rating-star" data-value="4">☆</span>
+                    <span class="rating-star" data-value="5">☆</span>
                 </div>
-                <textarea class="review-text" placeholder="Write your review here..."></textarea>
+                <textarea class="review-text" id="reviewText" placeholder="Write your review here..."></textarea>
                 <button class="submit-review" id="submitReviewBtn">Submit Review</button>
             </div>
         </div>
     </div>
 
     <script>
-        // File Storage and Management
-        class FileManager {
-            constructor() {
-                this.files = JSON.parse(localStorage.getItem('edushare_files')) || [];
-                this.currentUser = localStorage.getItem('edushare_user') || 'Guest';
+        // DOM Elements
+        const loginPage = document.getElementById('loginPage');
+        const appPage = document.getElementById('appPage');
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
+        const loginBtn = document.getElementById('loginBtn');
+        const guestBtn = document.getElementById('guestBtn');
+        const userDisplay = document.getElementById('userDisplay');
+        const userAvatar = document.getElementById('userAvatar');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const showUploadBtn = document.getElementById('showUploadBtn');
+        const uploadModal = document.getElementById('uploadModal');
+        const closeModalBtns = document.querySelectorAll('.close-btn');
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+        const browseBtn = document.querySelector('.browse-btn');
+        const uploadList = document.getElementById('uploadList');
+        const filesGrid = document.getElementById('filesGrid');
+        const reviewModal = document.getElementById('reviewModal');
+        const ratingStars = document.querySelectorAll('.rating-star');
+        const submitReviewBtn = document.getElementById('submitReviewBtn');
+        const reviewText = document.getElementById('reviewText');
+        const dashboardPage = document.getElementById('dashboardPage');
+        const previewPage = document.getElementById('previewPage');
+        const backToDashboard = document.getElementById('backToDashboard');
+        const previewFileName = document.getElementById('previewFileName');
+        const previewFileIcon = document.getElementById('previewFileIcon');
+        const previewFileSize = document.getElementById('previewFileSize');
+        const previewFileType = document.getElementById('previewFileType');
+        const previewFileDate = document.getElementById('previewFileDate');
+        const previewFileOwner = document.getElementById('previewFileOwner');
+        const previewArea = document.getElementById('previewArea');
+        const downloadPreviewBtn = document.getElementById('downloadPreviewBtn');
+        const reviewPreviewBtn = document.getElementById('reviewPreviewBtn');
+        const reviewsList = document.getElementById('reviewsList');
+
+        // State
+        let currentUser = null;
+        let uploadedFiles = [];
+        let selectedFile = null;
+        let currentRating = 0;
+
+        // Sample files data
+        const sampleFiles = [
+            { id: 1, name: 'Lecture Notes.pdf', type: 'pdf', size: '2.4 MB', date: 'Jan 12, 2023', owner: 'Prof. Johnson', icon: 'far fa-file-pdf', color: '#F44336' },
+            { id: 2, name: 'Assignment.docx', type: 'doc', size: '1.2 MB', date: 'Feb 3, 2023', owner: 'Dr. Smith', icon: 'far fa-file-word', color: '#2196F3' },
+            { id: 3, name: 'Presentation.pptx', type: 'ppt', size: '4.7 MB', date: 'Mar 15, 2023', owner: 'Sarah M.', icon: 'far fa-file-powerpoint', color: '#FF9800' },
+            { id: 4, name: 'Research Data.xlsx', type: 'xls', size: '3.1 MB', date: 'Apr 22, 2023', owner: 'Data Team', icon: 'far fa-file-excel', color: '#4CAF50' },
+            { id: 5, name: 'Study Guide.txt', type: 'txt', size: '0.5 MB', date: 'May 5, 2023', owner: 'Study Group', icon: 'far fa-file-alt', color: '#9E9E9E' },
+            { id: 6, name: 'Code Examples.zip', type: 'zip', size: '8.9 MB', date: 'Jun 18, 2023', owner: 'Dev Team', icon: 'far fa-file-archive', color: '#795548' }
+        ];
+
+        // Sample reviews data
+        const sampleReviews = [
+            { id: 1, fileId: 1, user: 'Student A', rating: 5, comment: 'Very comprehensive notes, helped me ace the exam!', date: 'Jan 15, 2023' },
+            { id: 2, fileId: 1, user: 'Student B', rating: 4, comment: 'Good material, but could use more examples.', date: 'Jan 20, 2023' },
+            { id: 3, fileId: 4, user: 'Researcher X', rating: 5, comment: 'Excellent dataset, very well organized.', date: 'Apr 25, 2023' }
+        ];
+
+        // Initialize the app
+        function init() {
+            // Add event listeners
+            loginBtn.addEventListener('click', handleLogin);
+            guestBtn.addEventListener('click', handleGuestLogin);
+            logoutBtn.addEventListener('click', handleLogout);
+            showUploadBtn.addEventListener('click', () => uploadModal.classList.add('active'));
+            closeModalBtns.forEach(btn => btn.addEventListener('click', closeModals));
+            browseBtn.addEventListener('click', () => fileInput.click());
+            fileInput.addEventListener('change', handleFileSelect);
+            dropZone.addEventListener('dragover', handleDragOver);
+            dropZone.addEventListener('drop', handleDrop);
+            ratingStars.forEach(star => star.addEventListener('click', handleRating));
+            submitReviewBtn.addEventListener('click', handleReviewSubmit);
+            backToDashboard.addEventListener('click', () => showPage(dashboardPage));
+            downloadPreviewBtn.addEventListener('click', downloadFile);
+            reviewPreviewBtn.addEventListener('click', showReviewModal);
+
+            // Render sample files
+            renderFiles(sampleFiles);
+        }
+
+        // Login handlers
+        function handleLogin() {
+            const username = usernameInput.value.trim();
+            const password = passwordInput.value;
+
+            if (!username || !password) {
+                shakeElement(document.getElementById('card'));
+                return;
             }
+
+            currentUser = username;
+            userDisplay.textContent = `Welcome, ${username}`;
+            userAvatar.textContent = username.charAt(0).toUpperCase();
+            loginPage.style.display = 'none';
+            appPage.style.display = 'flex';
+        }
+
+        function handleGuestLogin() {
+            currentUser = 'Guest';
+            userDisplay.textContent = 'Welcome, Guest';
+            userAvatar.textContent = 'G';
+            loginPage.style.display = 'none';
+            appPage.style.display = 'flex';
+        }
+
+        function handleLogout() {
+            currentUser = null;
+            usernameInput.value = '';
+            passwordInput.value = '';
+            appPage.style.display = 'none';
+            loginPage.style.display = 'flex';
+        }
+
+        // File upload handlers
+        function handleDragOver(e) {
+            e.preventDefault();
+            dropZone.classList.add('active');
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            dropZone.classList.remove('active');
             
-            // Add a new file
-            addFile(file) {
+            const files = e.dataTransfer.files;
+            handleFiles(files);
+        }
+
+        function handleFileSelect() {
+            const files = fileInput.files;
+            handleFiles(files);
+        }
+
+        function handleFiles(files) {
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                addFileToUploadList(file);
+            }
+        }
+
+        function addFileToUploadList(file) {
+            const fileId = Date.now() + Math.floor(Math.random() * 1000);
+            const listItem = document.createElement('div');
+            listItem.className = 'upload-item';
+            listItem.innerHTML = `
+                <div class="upload-item-name">${file.name}</div>
+                <div class="upload-item-remove" data-id="${fileId}">&times;</div>
+            `;
+            uploadList.appendChild(listItem);
+
+            // Add remove functionality
+            listItem.querySelector('.upload-item-remove').addEventListener('click', function() {
+                listItem.remove();
+            });
+
+            // Simulate upload completion after 2 seconds
+            setTimeout(() => {
+                listItem.querySelector('.upload-item-remove').innerHTML = '<i class="fas fa-check" style="color: var(--success);"></i>';
+                
+                // Add file to the files list
+                const fileType = getFileType(file.name);
                 const newFile = {
-                    id: Date.now().toString(),
+                    id: fileId,
                     name: file.name,
-                    type: this.getFileType(file.name),
-                    size: this.formatFileSize(file.size),
-                    date: new Date().toLocaleDateString(),
-                    owner: this.currentUser,
-                    reviews: []
+                    type: fileType,
+                    size: formatFileSize(file.size),
+                    date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+                    owner: currentUser,
+                    icon: getFileIcon(fileType),
+                    color: getFileColor(fileType)
                 };
                 
-                this.files.push(newFile);
-                this.saveFiles();
-                return newFile;
-            }
+                uploadedFiles.push(newFile);
+                renderFiles([...sampleFiles, ...uploadedFiles]);
+            }, 2000);
+        }
+
+        // File utilities
+        function getFileType(filename) {
+            const extension = filename.split('.').pop().toLowerCase();
+            if (['pdf'].includes(extension)) return 'pdf';
+            if (['doc', 'docx'].includes(extension)) return 'doc';
+            if (['ppt', 'pptx'].includes(extension)) return 'ppt';
+            if (['xls', 'xlsx'].includes(extension)) return 'xls';
+            if (['txt', 'text'].includes(extension)) return 'txt';
+            if (['zip', 'rar', '7z'].includes(extension)) return 'zip';
+            if (['jpg', 'jpeg', 'png', 'gif', 'bmp'].includes(extension)) return 'image';
+            return 'other';
+        }
+
+        function getFileIcon(fileType) {
+            const icons = {
+                'pdf': 'far fa-file-pdf',
+                'doc': 'far fa-file-word',
+                'ppt': 'far fa-file-powerpoint',
+                'xls': 'far fa-file-excel',
+                'txt': 'far fa-file-alt',
+                'zip': 'far fa-file-archive',
+                'image': 'far fa-file-image',
+                'other': 'far fa-file'
+            };
+            return icons[fileType] || icons['other'];
+        }
+
+        function getFileColor(fileType) {
+            const colors = {
+                'pdf': '#F44336',
+                'doc': '#2196F3',
+                'ppt': '#FF9800',
+                'xls': '#4CAF50',
+                'txt': '#9E9E9E',
+                'zip': '#795548',
+                'image': '#E91E63',
+                'other': '#607D8B'
+            };
+            return colors[fileType] || colors['other'];
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        // Render files in the grid
+        function renderFiles(files) {
+            filesGrid.innerHTML = '';
             
-            // Get all files (shared with all users)
-            getAllFiles() {
-                return this.files;
-            }
-            
-            // Get file by ID
-            getFileById(id) {
-                return this.files.find(file => file.id === id);
-            }
-            
-            // Add review to a file
-            addReview(fileId, rating, comment) {
-                const file = this.getFileById(fileId);
-                if (file) {
-                    file.reviews.push({
-                        user: this.currentUser,
-                        rating,
-                        comment,
-                        date: new Date().toLocaleDateString()
-                    });
-                    this.saveFiles();
-                }
-            }
-            
-            // Get file type from extension
-            getFileType(filename) {
-                const extension = filename.split('.').pop().toLowerCase();
-                if (['pdf'].includes(extension)) return 'pdf';
-                if (['doc', 'docx'].includes(extension)) return 'doc';
-                if (['ppt', 'pptx'].includes(extension)) return 'ppt';
-                if (['xls', 'xlsx'].includes(extension)) return 'xls';
-                if (['jpg', 'jpeg', 'png', 'gif', 'bmp'].includes(extension)) return 'image';
-                if (['zip', 'rar', '7z'].includes(extension)) return 'zip';
-                return 'file';
-            }
-            
-            // Format file size
-            formatFileSize(bytes) {
-                if (bytes === 0) return '0 Bytes';
-                const k = 1024;
-                const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-                const i = Math.floor(Math.log(bytes) / Math.log(k));
-                return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-            }
-            
-            // Save files to localStorage
-            saveFiles() {
-                localStorage.setItem('edushare_files', JSON.stringify(this.files));
+            files.forEach(file => {
+                const fileCard = document.createElement('div');
+                fileCard.className = 'file-card';
+                fileCard.innerHTML = `
+                    <div class="file-icon" style="background: ${file.color}">
+                        <i class="${file.icon}"></i>
+                    </div>
+                    <div class="file-name">${file.name}</div>
+                    <div class="file-details">
+                        <span>${file.size}</span>
+                        <span>${file.date}</span>
+                    </div>
+                    <div class="file-actions">
+                        <button class="action-btn download-btn" data-id="${file.id}">
+                            <i class="fas fa-download"></i> Download
+                        </button>
+                        <button class="action-btn preview-btn" data-id="${file.id}">
+                            <i class="fas fa-eye"></i> Preview
+                        </button>
+                    </div>
+                `;
+                filesGrid.appendChild(fileCard);
+                
+                // Add event listeners to action buttons
+                fileCard.querySelector('.download-btn').addEventListener('click', function() {
+                    const fileId = this.getAttribute('data-id');
+                    downloadFileById(fileId);
+                });
+                
+                fileCard.querySelector('.preview-btn').addEventListener('click', function() {
+                    const fileId = this.getAttribute('data-id');
+                    showPreview(fileId);
+                });
+            });
+        }
+
+        // File actions
+        function downloadFileById(fileId) {
+            const file = [...sampleFiles, ...uploadedFiles].find(f => f.id == fileId);
+            if (file) {
+                // In a real app, this would download the actual file
+                alert(`Downloading: ${file.name}`);
             }
         }
 
-        // UI Controller
-        class UIController {
-            constructor(fileManager) {
-                this.fileManager = fileManager;
-                this.currentlyReviewingFileId = null;
-                this.setupEventListeners();
-            }
-            
-            // Setup all event listeners
-            setupEventListeners() {
-                // Login functionality
-                document.getElementById('loginBtn').addEventListener('click', () => this.handleLogin());
-                document.getElementById('guestBtn').addEventListener('click', () => this.handleGuestLogin());
-                document.getElementById('logoutBtn').addEventListener('click', () => this.handleLogout());
+        function showPreview(fileId) {
+            const file = [...sampleFiles, ...uploadedFiles].find(f => f.id == fileId);
+            if (file) {
+                selectedFile = file;
                 
-                // Upload modal functionality
-                document.getElementById('showUploadBtn').addEventListener('click', () => this.showUploadModal());
-                document.getElementById('closeModal').addEventListener('click', () => this.hideUploadModal());
+                // Update preview page with file info
+                previewFileName.textContent = file.name;
+                previewFileIcon.innerHTML = `<i class="${file.icon}"></i>`;
+                previewFileIcon.style.background = file.color;
+                previewFileSize.textContent = file.size;
+                previewFileType.textContent = file.type.toUpperCase();
+                previewFileDate.textContent = file.date;
+                previewFileOwner.textContent = `By: ${file.owner}`;
                 
-                // File upload functionality
-                document.getElementById('browseBtn').addEventListener('click', () => document.getElementById('fileInput').click());
-                document.getElementById('fileInput').addEventListener('change', (e) => this.handleFileSelect(e));
-                document.getElementById('dropZone').addEventListener('dragover', (e) => this.handleDragOver(e));
-                document.getElementById('dropZone').addEventListener('drop', (e) => this.handleDrop(e));
-                document.getElementById('startUploadBtn').addEventListener('click', () => this.handleFileUpload());
+                // Set up preview content based on file type
+                setupPreview(file);
                 
-                // Review modal functionality
-                document.getElementById('closeReviewModal').addEventListener('click', () => this.hideReviewModal());
-                document.getElementById('submitReviewBtn').addEventListener('click', () => this.submitReview());
+                // Load reviews for this file
+                loadReviews(file.id);
                 
-                // Rating stars
-                document.querySelectorAll('.rating-star').forEach(star => {
-                    star.addEventListener('click', (e) => this.setRating(parseInt(e.target.getAttribute('data-value'))));
-                });
-            }
-            
-            // Show the main application page
-            showAppPage(username) {
-                document.getElementById('loginPage').style.display = 'none';
-                document.getElementById('appPage').style.display = 'block';
-                document.getElementById('userDisplay').textContent = `Welcome, ${username}`;
-                document.getElementById('userAvatar').textContent = username.charAt(0).toUpperCase();
-                
-                this.renderFiles();
-            }
-            
-            // Show the login page
-            showLoginPage() {
-                document.getElementById('loginPage').style.display = 'flex';
-                document.getElementById('appPage').style.display = 'none';
-            }
-            
-            // Render files to the grid
-            renderFiles() {
-                const filesGrid = document.getElementById('filesGrid');
-                filesGrid.innerHTML = '';
-                
-                const files = this.fileManager.getAllFiles();
-                
-                if (files.length === 0) {
-                    filesGrid.innerHTML = `
-                        <div style="grid-column: 1 / -1; text-align: center; padding: 40px; opacity: 0.7;">
-                            <i class="far fa-folder-open" style="font-size: 48px; margin-bottom: 16px;"></i>
-                            <p>No files shared yet. Upload the first file!</p>
-                        </div>
-                    `;
-                    return;
-                }
-                
-                // File type icons mapping
-                const fileIcons = {
-                    pdf: 'file-pdf',
-                    doc: 'file-word',
-                    ppt: 'file-powerpoint',
-                    xls: 'file-excel',
-                    image: 'file-image',
-                    zip: 'file-archive',
-                    file: 'file'
-                };
-                
-                files.forEach(file => {
-                    const fileCard = document.createElement('div');
-                    fileCard.className = 'file-card';
-                    fileCard.innerHTML = `
-                        <div class="file-icon">
-                            <i class="far fa-${fileIcons[file.type] || fileIcons.file}"></i>
-                        </div>
-                        <div class="file-name">${file.name}</div>
-                        <div class="file-details">
-                            <span>${file.size}</span>
-                            <span>${file.date}</span>
-                        </div>
-                        <div class="file-details">
-                            <span>By: ${file.owner}</span>
-                            <span>${file.reviews.length} reviews</span>
-                        </div>
-                        <div class="file-actions">
-                            <button class="action-btn download-btn" data-file-id="${file.id}">
-                                <i class="fas fa-download"></i> Download
-                            </button>
-                            <button class="action-btn review-btn" data-file-id="${file.id}">
-                                <i class="fas fa-star"></i> Review
-                            </button>
-                        </div>
-                    `;
-                    filesGrid.appendChild(fileCard);
-                    
-                    // Add event listeners to action buttons
-                    fileCard.querySelector('.download-btn').addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        this.downloadFile(file.id);
-                    });
-                    
-                    fileCard.querySelector('.review-btn').addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        this.showReviewModal(file.id);
-                    });
-                });
-            }
-            
-            // Handle login
-            handleLogin() {
-                const username = document.getElementById('username').value.trim();
-                const password = document.getElementById('password').value.trim();
-                const rememberMe = document.getElementById('rememberMe').checked;
-                
-                if (!username || !password) {
-                    this.showToast('Please enter both username and password');
-                    return;
-                }
-                
-                // Save user data
-                if (rememberMe) {
-                    localStorage.setItem('edushare_username', username);
-                    localStorage.setItem('edushare_remember', 'true');
-                }
-                
-                localStorage.setItem('edushare_loggedin', 'true');
-                localStorage.setItem('edushare_user', username);
-                this.fileManager.currentUser = username;
-                
-                this.showToast('Login successful!');
-                this.showAppPage(username);
-            }
-            
-            // Handle guest login
-            handleGuestLogin() {
-                localStorage.setItem('edushare_loggedin', 'true');
-                localStorage.setItem('edushare_user', 'Guest');
-                this.fileManager.currentUser = 'Guest';
-                
-                this.showToast('Continuing as guest...');
-                this.showAppPage('Guest');
-            }
-            
-            // Handle logout
-            handleLogout() {
-                localStorage.removeItem('edushare_loggedin');
-                localStorage.removeItem('edushare_user');
-                
-                this.showToast('Logged out successfully');
-                this.showLoginPage();
-            }
-            
-            // Show upload modal
-            showUploadModal() {
-                document.getElementById('uploadModal').classList.add('active');
-            }
-            
-            // Hide upload modal
-            hideUploadModal() {
-                document.getElementById('uploadModal').classList.remove('active');
-                document.getElementById('uploadList').innerHTML = '';
-            }
-            
-            // Handle file selection
-            handleFileSelect(e) {
-                const files = e.target.files;
-                if (files.length > 0) {
-                    this.processFiles(files);
-                }
-            }
-            
-            // Handle drag over
-            handleDragOver(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                document.getElementById('dropZone').classList.add('active');
-            }
-            
-            // Handle file drop
-            handleDrop(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                document.getElementById('dropZone').classList.remove('active');
-                
-                const files = e.dataTransfer.files;
-                if (files.length > 0) {
-                    this.processFiles(files);
-                }
-            }
-            
-            // Process selected files
-            processFiles(files) {
-                const uploadList = document.getElementById('uploadList');
-                uploadList.innerHTML = '';
-                
-                for (let i = 0; i < files.length; i++) {
-                    const file = files[i];
-                    const listItem = document.createElement('div');
-                    listItem.className = 'upload-item';
-                    listItem.innerHTML = `
-                        <div class="upload-item-name">${file.name}</div>
-                        <div class="upload-item-remove" data-index="${i}">&times;</div>
-                    `;
-                    uploadList.appendChild(listItem);
-                    
-                    // Add event listener to remove button
-                    listItem.querySelector('.upload-item-remove').addEventListener('click', (e) => {
-                        e.target.parentElement.remove();
-                    });
-                }
-            }
-            
-            // Handle file upload
-            handleFileUpload() {
-                const uploadList = document.getElementById('uploadList');
-                if (uploadList.children.length === 0) {
-                    this.showToast('Please select files to upload');
-                    return;
-                }
-                
-                // In a real app, you would upload files to a server here
-                // For this demo, we'll simulate the upload process
-                const fileInput = document.getElementById('fileInput');
-                for (let i = 0; i < fileInput.files.length; i++) {
-                    const file = fileInput.files[i];
-                    this.fileManager.addFile(file);
-                }
-                
-                this.showToast('Files uploaded successfully!');
-                this.hideUploadModal();
-                this.renderFiles();
-            }
-            
-            // Download file
-            downloadFile(fileId) {
-                const file = this.fileManager.getFileById(fileId);
-                if (file) {
-                    this.showToast(`Downloading ${file.name}...`);
-                    // In a real app, this would trigger an actual download
-                    // For demo purposes, we'll just simulate it
-                    setTimeout(() => {
-                        this.showToast(`${file.name} downloaded successfully!`);
-                    }, 1500);
-                }
-            }
-            
-            // Show review modal
-            showReviewModal(fileId) {
-                const file = this.fileManager.getFileById(fileId);
-                if (file) {
-                    this.currentlyReviewingFileId = fileId;
-                    
-                    // Set file info in modal
-                    document.getElementById('reviewFileName').textContent = file.name;
-                    document.getElementById('reviewFileMeta').textContent = `${file.size} · ${file.type.toUpperCase()}`;
-                    
-                    // Set file icon
-                    const fileIcons = {
-                        pdf: 'file-pdf',
-                        doc: 'file-word',
-                        ppt: 'file-powerpoint',
-                        xls: 'file-excel',
-                        image: 'file-image',
-                        zip: 'file-archive',
-                        file: 'file'
-                    };
-                    document.getElementById('reviewFileIcon').className = `far fa-${fileIcons[file.type] || fileIcons.file}`;
-                    
-                    // Reset rating and comment
-                    this.setRating(0);
-                    document.querySelector('.review-text').value = '';
-                    
-                    // Show modal
-                    document.getElementById('reviewModal').classList.add('active');
-                }
-            }
-            
-            // Hide review modal
-            hideReviewModal() {
-                document.getElementById('reviewModal').classList.remove('active');
-                this.currentlyReviewingFileId = null;
-            }
-            
-            // Set rating stars
-            setRating(rating) {
-                const stars = document.querySelectorAll('.rating-star');
-                stars.forEach(star => {
-                    const value = parseInt(star.getAttribute('data-value'));
-                    if (value <= rating) {
-                        star.classList.add('active');
-                    } else {
-                        star.classList.remove('active');
-                    }
-                });
-            }
-            
-            // Submit review
-            submitReview() {
-                if (!this.currentlyReviewingFileId) return;
-                
-                // Get rating
-                const activeStars = document.querySelectorAll('.rating-star.active');
-                const rating = activeStars.length;
-                
-                if (rating === 0) {
-                    this.showToast('Please select a rating');
-                    return;
-                }
-                
-                // Get comment
-                const comment = document.querySelector('.review-text').value.trim();
-                
-                // Add review
-                this.fileManager.addReview(this.currentlyReviewingFileId, rating, comment);
-                
-                this.showToast('Review submitted successfully!');
-                this.hideReviewModal();
-                this.renderFiles();
-            }
-            
-            // Show toast notification
-            showToast(msg) {
-                const t = document.createElement('div');
-                t.textContent = msg;
-                Object.assign(t.style, {
-                    position: 'fixed',
-                    left: '50%',
-                    transform: 'translateX(-50%)',
-                    bottom: '28px',
-                    background: 'rgba(0, 0, 0, 0.6)',
-                    color: '#fff',
-                    padding: '10px 14px',
-                    borderRadius: '10px',
-                    zIndex: 9999,
-                    transition: 'opacity 0.3s ease'
-                });
-                document.body.appendChild(t);
-                setTimeout(() => t.style.opacity = '0', 1800);
-                setTimeout(() => t.remove(), 2600);
+                // Show preview page
+                showPage(previewPage);
             }
         }
 
-        // Initialize the application
-        function initApp() {
-            // Create file manager
-            const fileManager = new FileManager();
+        function setupPreview(file) {
+            // Clear previous preview
+            previewArea.innerHTML = '';
             
-            // Create UI controller
-            const uiController = new UIController(fileManager);
-            
-            // Check if user is logged in
-            const isLoggedIn = localStorage.getItem('edushare_loggedin') === 'true';
-            const username = localStorage.getItem('edushare_user') || 'User';
-            
-            if (isLoggedIn) {
-                uiController.showAppPage(username);
+            // Different preview based on file type
+            if (file.type === 'pdf') {
+                previewArea.innerHTML = `
+                    <iframe src="https://mozilla.github.io/pdf.js/web/viewer.html?file=https://raw.githubusercontent.com/mozilla/pdf.js/ba2edeae/web/compressed.tracemonkey-pldi-09.pdf" 
+                            width="100%" height="500px" style="border: none; border-radius: 8px;"></iframe>
+                    <p>PDF preview powered by PDF.js</p>
+                `;
+            } else if (file.type === 'image') {
+                previewArea.innerHTML = `
+                    <img src="https://placehold.co/600x400/2c3e50/ffffff?text=Image+Preview" 
+                         alt="${file.name}" style="max-width: 100%; border-radius: 8px;">
+                    <p>Image preview</p>
+                `;
             } else {
-                uiController.showLoginPage();
+                previewArea.innerHTML = `
+                    <i class="fas fa-file" style="font-size: 64px; margin-bottom: 16px; opacity: 0.7;"></i>
+                    <p>Preview not available for this file type. Download to view the file.</p>
+                `;
             }
         }
 
-        // Initialize the app when DOM is loaded
-        document.addEventListener('DOMContentLoaded', initApp);
+        function downloadFile() {
+            if (selectedFile) {
+                // In a real app, this would download the actual file
+                alert(`Downloading: ${selectedFile.name}`);
+            }
+        }
+
+        function loadReviews(fileId) {
+            const fileReviews = sampleReviews.filter(review => review.fileId == fileId);
+            reviewsList.innerHTML = '';
+            
+            if (fileReviews.length === 0) {
+                reviewsList.innerHTML = '<div class="no-reviews">No reviews yet. Be the first to review!</div>';
+                return;
+            }
+            
+            fileReviews.forEach(review => {
+                const reviewItem = document.createElement('div');
+                reviewItem.className = 'review-item';
+                reviewItem.innerHTML = `
+                    <div class="review-header">
+                        <div class="reviewer">${review.user}</div>
+                        <div class="review-date">${review.date}</div>
+                    </div>
+                    <div class="review-rating">${getStarRating(review.rating)}</div>
+                    <div class="review-comment">${review.comment}</div>
+                `;
+                reviewsList.appendChild(reviewItem);
+            });
+        }
+
+        function getStarRating(rating) {
+            let stars = '';
+            for (let i = 1; i <= 5; i++) {
+                stars += i <= rating ? '★' : '☆';
+            }
+            return stars;
+        }
+
+        // Review functionality
+        function showReviewModal() {
+            if (selectedFile) {
+                document.getElementById('reviewFileName').textContent = selectedFile.name;
+                document.getElementById('reviewFileMeta').textContent = `${selectedFile.type.toUpperCase()} • ${selectedFile.size}`;
+                document.getElementById('reviewFileIcon').innerHTML = `<i class="${selectedFile.icon}"></i>`;
+                document.getElementById('reviewFileIcon').style.background = selectedFile.color;
+                
+                // Reset rating and text
+                currentRating = 0;
+                ratingStars.forEach(star => star.classList.remove('active'));
+                reviewText.value = '';
+                
+                reviewModal.classList.add('active');
+            }
+        }
+
+        function handleRating(e) {
+            const value = parseInt(e.target.getAttribute('data-value'));
+            currentRating = value;
+            
+            ratingStars.forEach(star => {
+                const starValue = parseInt(star.getAttribute('data-value'));
+                if (starValue <= value) {
+                    star.classList.add('active');
+                    star.textContent = '★';
+                } else {
+                    star.classList.remove('active');
+                    star.textContent = '☆';
+                }
+            });
+        }
+
+        function handleReviewSubmit() {
+            if (currentRating === 0) {
+                alert('Please select a rating');
+                return;
+            }
+            
+            const review = {
+                id: sampleReviews.length + 1,
+                fileId: selectedFile.id,
+                user: currentUser,
+                rating: currentRating,
+                comment: reviewText.value,
+                date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+            };
+            
+            sampleReviews.push(review);
+            loadReviews(selectedFile.id);
+            reviewModal.classList.remove('active');
+            alert('Thank you for your review!');
+        }
+
+        // Utility functions
+        function closeModals() {
+            uploadModal.classList.remove('active');
+            reviewModal.classList.remove('active');
+        }
+
+        function showPage(page) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            page.classList.add('active');
+        }
+
+        function shakeElement(element) {
+            element.classList.add('shake');
+            setTimeout(() => element.classList.remove('shake'), 500);
+        }
+
+        // Initialize the app when the DOM is loaded
+        document.addEventListener('DOMContentLoaded', init);
     </script>
 </body>
 </html>
