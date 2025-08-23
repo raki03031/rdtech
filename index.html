@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EduShare - Login</title>
+    <title>EduShare - File Sharing Platform</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -14,6 +14,9 @@
             --glass: rgba(255, 255, 255, 0.06);
             --glass-2: rgba(255, 255, 255, 0.03);
             --text: #f7f7fb;
+            --success: #4CAF50;
+            --warning: #FFC107;
+            --danger: #F44336;
         }
 
         * {
@@ -34,10 +37,432 @@
                         linear-gradient(180deg, var(--accent2) 0%, #151728 100%);
             color: var(--text);
             display: flex;
+            flex-direction: column;
+            padding: 0;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Header styles */
+        header {
+            background: rgba(15, 18, 38, 0.8);
+            backdrop-filter: blur(8px);
+            padding: 16px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo i {
+            font-size: 24px;
+            color: var(--accent-light);
+        }
+
+        .logo h1 {
+            font-size: 22px;
+            margin: 0;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .user-info img {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--accent1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Main content area */
+        main {
+            flex: 1;
+            padding: 30px 40px;
+            overflow-y: auto;
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* Dashboard styles */
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .upload-btn {
+            background: linear-gradient(90deg, var(--accent1), var(--accent-light));
+            border: none;
+            color: #111;
+            padding: 10px 20px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            box-shadow: 0 8px 30px rgba(74, 111, 165, 0.12);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .upload-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 35px rgba(74, 111, 165, 0.2);
+        }
+
+        .files-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        .file-card {
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.02));
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: 0 8px 24px rgba(6, 6, 10, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(8px);
+            transition: transform 0.2s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .file-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 255, 255, 0.08);
+        }
+
+        .file-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            background: var(--accent1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+            font-size: 20px;
+        }
+
+        .file-name {
+            font-weight: 600;
+            margin-bottom: 6px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .file-details {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            opacity: 0.7;
+            margin-bottom: 12px;
+        }
+
+        .file-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .action-btn {
+            flex: 1;
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+        }
+
+        .download-btn {
+            background: var(--accent1);
+            color: white;
+        }
+
+        .download-btn:hover {
+            background: #3d5d8f;
+        }
+
+        .review-btn {
+            background: var(--glass);
+            color: var(--text);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .review-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Upload modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: linear-gradient(180deg, rgba(30, 33, 55, 0.9), rgba(20, 23, 40, 0.9));
+            border-radius: 16px;
+            padding: 24px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 24px;
+            cursor: pointer;
+            opacity: 0.7;
+        }
+
+        .close-btn:hover {
+            opacity: 1;
+        }
+
+        .drop-zone {
+            border: 2px dashed rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 40px 20px;
+            text-align: center;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .drop-zone.active {
+            border-color: var(--accent-light);
+            background: rgba(255, 212, 59, 0.05);
+        }
+
+        .drop-zone i {
+            font-size: 42px;
+            margin-bottom: 12px;
+            color: var(--accent-light);
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .browse-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: var(--text);
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .browse-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .upload-list {
+            margin-top: 20px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .upload-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+            margin-bottom: 8px;
+        }
+
+        .upload-item-name {
+            font-size: 14px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            flex: 1;
+        }
+
+        .upload-item-remove {
+            color: #ff6b6b;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        /* Review modal */
+        .review-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .review-modal.active {
+            display: flex;
+        }
+
+        .review-content {
+            background: linear-gradient(180deg, rgba(30, 33, 55, 0.9), rgba(20, 23, 40, 0.9));
+            border-radius: 16px;
+            padding: 24px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .review-file-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .review-file-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background: var(--accent1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        .review-file-details {
+            flex: 1;
+        }
+
+        .review-file-name {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .review-file-meta {
+            font-size: 12px;
+            opacity: 0.7;
+        }
+
+        .rating {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin: 20px 0;
+        }
+
+        .rating-star {
+            font-size: 28px;
+            color: #555;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .rating-star.active {
+            color: var(--accent-light);
+        }
+
+        .review-text {
+            width: 100%;
+            background: var(--glass-2);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            padding: 12px 14px;
+            border-radius: 12px;
+            color: var(--text);
+            outline: none;
+            font-size: 15px;
+            margin-bottom: 20px;
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .submit-review {
+            background: linear-gradient(90deg, var(--accent1), var(--accent-light));
+            border: none;
+            color: #111;
+            padding: 12px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+            box-shadow: 0 8px 30px rgba(74, 111, 165, 0.12);
+            transition: all 0.3s ease;
+        }
+
+        .submit-review:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 35px rgba(74, 111, 165, 0.2);
+        }
+
+        /* Login page styles */
+        .login-container {
+            height: 100vh;
+            display: flex;
             align-items: center;
             justify-content: center;
             padding: 40px;
-            -webkit-font-smoothing: antialiased;
         }
 
         /* floating particle blobs */
@@ -323,200 +748,309 @@
             .logo-anim {
                 margin: 0 auto;
             }
+            
+            .files-grid {
+                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            }
+            
+            header {
+                padding: 16px 20px;
+            }
+            
+            main {
+                padding: 20px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="blob a" aria-hidden="true"></div>
-    <div class="blob b" aria-hidden="true"></div>
+    <!-- Login Page -->
+    <div id="loginPage" class="login-container">
+        <div class="blob a" aria-hidden="true"></div>
+        <div class="blob b" aria-hidden="true"></div>
 
-    <div class="wrap" role="main">
-        <div class="hero">
-            <div class="logo-anim" aria-hidden="true">
-                <i class="fas fa-file-import"></i>
-            </div>
-
-            <h1>EDUSHARE</h1>
-            <p class="lead">Share educational resources securely. Upload, preview, and collaborate on documents with your classmates and teachers.</p>
-
-            <div class="features" aria-hidden="true">
-                <div class="chip">Secure Sharing</div>
-                <div class="chip">Class Groups</div>
-                <div class="chip">Annotations</div>
-            </div>
-        </div>
-
-        <div class="card" id="card">
-            <div style="position:relative">
-                <span class="spark"></span>
-                <span class="spark s2"></span>
-                <span class="spark s3"></span>
-                <h2>EDUSHARE LOGIN</h2>
-            </div>
-
-            <div class="form-row">
-                <input id="username" class="input" type="text" placeholder="Enter username or email" autocomplete="username" />
-                <input id="password" class="input" type="password" placeholder="Password" autocomplete="current-password" />
-                <button id="loginBtn" class="btn">LOGIN</button>
-                <button id="guestBtn" class="btn secondary">Continue as Guest</button>
-
-                <div class="or"><span>or</span></div>
-
-                <div class="socials">
-                    <div class="social" id="googleBtn">Google</div>
-                    <div class="social" id="microsoftBtn">Microsoft</div>
+        <div class="wrap" role="main">
+            <div class="hero">
+                <div class="logo-anim" aria-hidden="true">
+                    <i class="fas fa-file-import"></i>
                 </div>
 
-                <div class="small-row" style="margin-top:12px">
-                    <label style="display:flex;align-items:center;gap:8px">
-                        <input type="checkbox" id="rememberMe" /> Remember me
-                    </label>
-                    <a href="#" style="color:rgba(255,255,255,0.8);text-decoration:none">Forgot password?</a>
+                <h1>EDUSHARE</h1>
+                <p class="lead">Share educational resources securely. Upload, preview, and collaborate on documents with your classmates and teachers.</p>
+
+                <div class="features" aria-hidden="true">
+                    <div class="chip">Secure Sharing</div>
+                    <div class="chip">Class Groups</div>
+                    <div class="chip">Annotations</div>
                 </div>
-                
-                <div class="small-row" style="justify-content: center; margin-top: 20px;">
-                    <span>Don't have an account? <a href="#" style="color:var(--accent-light);text-decoration:none">Sign up</a></span>
+            </div>
+
+            <div class="card" id="card">
+                <div style="position:relative">
+                    <span class="spark"></span>
+                    <span class="spark s2"></span>
+                    <span class="spark s3"></span>
+                    <h2>EDUSHARE LOGIN</h2>
+                </div>
+
+                <div class="form-row">
+                    <input id="username" class="input" type="text" placeholder="Enter username or email" autocomplete="username" />
+                    <input id="password" class="input" type="password" placeholder="Password" autocomplete="current-password" />
+                    <button id="loginBtn" class="btn">LOGIN</button>
+                    <button id="guestBtn" class="btn secondary">Continue as Guest</button>
+
+                    <div class="or"><span>or</span></div>
+
+                    <div class="socials">
+                        <div class="social" id="googleBtn">Google</div>
+                        <div class="social" id="microsoftBtn">Microsoft</div>
+                    </div>
+
+                    <div class="small-row" style="margin-top:12px">
+                        <label style="display:flex;align-items:center;gap:8px">
+                            <input type="checkbox" id="rememberMe" /> Remember me
+                        </label>
+                        <a href="#" style="color:rgba(255,255,255,0.8);text-decoration:none">Forgot password?</a>
+                    </div>
+                    
+                    <div class="small-row" style="justify-content: center; margin-top: 20px;">
+                        <span>Don't have an account? <a href="#" style="color:var(--accent-light);text-decoration:none">Sign up</a></span>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Main App (initially hidden) -->
+    <div id="appPage" style="display: none;">
+        <header>
+            <div class="logo">
+                <i class="fas fa-file-import"></i>
+                <h1>EDUSHARE</h1>
+            </div>
+            <div class="user-info">
+                <span id="userDisplay">Welcome, User</span>
+                <div id="userAvatar" style="width: 36px; height: 36px; border-radius: 50%; background: var(--accent1); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;"></div>
+                <button id="logoutBtn" class="btn secondary">Logout</button>
+            </div>
+        </header>
+
+        <main>
+            <div id="dashboardPage" class="page active">
+                <div class="dashboard-header">
+                    <h2>Shared Files</h2>
+                    <button id="showUploadBtn" class="upload-btn">
+                        <i class="fas fa-cloud-upload-alt"></i> Upload File
+                    </button>
+                </div>
+
+                <div class="files-grid" id="filesGrid">
+                    <!-- Files will be dynamically added here -->
+                </div>
+            </div>
+        </main>
+
+        <!-- Upload Modal -->
+        <div id="uploadModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Upload Files</h3>
+                    <button class="close-btn" id="closeModal">&times;</button>
+                </div>
+                <div class="drop-zone" id="dropZone">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <p>Drag & drop files here or click to browse</p>
+                    <button class="browse-btn" id="browseBtn">Browse Files</button>
+                    <input type="file" id="fileInput" class="file-input" multiple>
+                </div>
+                <div class="upload-list" id="uploadList">
+                    <!-- Upload queue will appear here -->
+                </div>
+                <button id="startUploadBtn" class="btn" style="width: 100%; margin-top: 20px;">Upload Files</button>
+            </div>
+        </div>
+
+        <!-- Review Modal -->
+        <div id="reviewModal" class="review-modal">
+            <div class="review-content">
+                <div class="review-header">
+                    <h3>Review File</h3>
+                    <button class="close-btn" id="closeReviewModal">&times;</button>
+                </div>
+                <div class="review-file-info">
+                    <div class="review-file-icon">
+                        <i class="far fa-file-pdf" id="reviewFileIcon"></i>
+                    </div>
+                    <div class="review-file-details">
+                        <div class="review-file-name" id="reviewFileName">File Name</div>
+                        <div class="review-file-meta" id="reviewFileMeta">2.4 MB · PDF</div>
+                    </div>
+                </div>
+                <div class="rating">
+                    <span class="rating-star" data-value="1">★</span>
+                    <span class="rating-star" data-value="2">★</span>
+                    <span class="rating-star" data-value="3">★</span>
+                    <span class="rating-star" data-value="4">★</span>
+                    <span class="rating-star" data-value="5">★</span>
+                </div>
+                <textarea class="review-text" placeholder="Write your review here..."></textarea>
+                <button class="submit-review" id="submitReviewBtn">Submit Review</button>
+            </div>
+        </div>
+    </div>
+
     <script>
-        // Basic login interaction + animations
-        const loginBtn = document.getElementById('loginBtn');
-        const guestBtn = document.getElementById('guestBtn');
-        const card = document.getElementById('card');
-        const rememberMe = document.getElementById('rememberMe');
-
-        // Check if user was previously logged in
-        document.addEventListener('DOMContentLoaded', function() {
-            const savedUsername = localStorage.getItem('edushare_username');
-            const savedRememberMe = localStorage.getItem('edushare_remember') === 'true';
-            
-            if (savedUsername && savedRememberMe) {
-                document.getElementById('username').value = savedUsername;
-                rememberMe.checked = true;
-            }
-        });
-
-        function showToast(msg) {
-            const t = document.createElement('div');
-            t.textContent = msg;
-            Object.assign(t.style, {
-                position: 'fixed',
-                left: '50%',
-                transform: 'translateX(-50%)',
-                bottom: '28px',
-                background: 'rgba(0, 0, 0, 0.6)',
-                color: '#fff',
-                padding: '10px 14px',
-                borderRadius: '10px',
-                zIndex: 9999,
-                transition: 'opacity 0.3s ease'
-            });
-            document.body.appendChild(t);
-            setTimeout(() => t.style.opacity = '0', 1800);
-            setTimeout(() => t.remove(), 2600);
-        }
-
-        function loginUser(username) {
-            // Save login state
-            if (rememberMe.checked) {
-                localStorage.setItem('edushare_username', username);
-                localStorage.setItem('edushare_remember', 'true');
-            } else {
-                localStorage.removeItem('edushare_username');
-                localStorage.removeItem('edushare_remember');
+        // File Storage and Management
+        class FileManager {
+            constructor() {
+                this.files = JSON.parse(localStorage.getItem('edushare_files')) || [];
+                this.currentUser = localStorage.getItem('edushare_user') || 'Guest';
             }
             
-            // Set logged in state
-            localStorage.setItem('edushare_loggedin', 'true');
-            localStorage.setItem('edushare_user', username);
-            
-            // Show success message
-            showToast('Login successful! Redirecting...');
-            
-            // Redirect to main EduShare page after a short delay
-            setTimeout(() => {
-                window.location.href = 'index.html'; // Redirect to main EduShare page
-            }, 1500);
-        }
-
-        loginBtn.addEventListener('click', () => {
-            const u = document.getElementById('username').value.trim();
-            const p = document.getElementById('password').value.trim();
-
-            // Simple validation
-            if (!u || !p) {
-                card.classList.remove('shake');
-                void card.offsetWidth; // restart animation
-                card.classList.add('shake');
-                showToast('Please enter both username and password');
-                return;
-            }
-
-            // For demo purposes - any password works, but "edushare" gives special message
-            loginBtn.disabled = true;
-            loginBtn.textContent = 'Logging in...';
-            
-            setTimeout(() => {
-                loginBtn.disabled = false;
-                loginBtn.textContent = 'LOGIN';
+            // Add a new file
+            addFile(file) {
+                const newFile = {
+                    id: Date.now().toString(),
+                    name: file.name,
+                    type: this.getFileType(file.name),
+                    size: this.formatFileSize(file.size),
+                    date: new Date().toLocaleDateString(),
+                    owner: this.currentUser,
+                    reviews: []
+                };
                 
-                if (p.toLowerCase() === 'edushare') {
-                    loginUser(u);
-                } else {
-                    // Still allow login with any password for demo
-                    loginUser(u);
-                }
-            }, 1000);
-        });
-
-        guestBtn.addEventListener('click', () => {
-            showToast('Continuing as guest...');
-            localStorage.setItem('edushare_loggedin', 'true');
-            localStorage.setItem('edushare_user', 'Guest');
+                this.files.push(newFile);
+                this.saveFiles();
+                return newFile;
+            }
             
-            setTimeout(() => {
-                window.location.href = 'index.html';
-            }, 1000);
-        });
-
-        // Simple confetti effect for successful login
-        function confettiBurst() {
-            const colors = ['#4a6fa5', '#ffd43b', '#2c3e50', '#78a6ff'];
-            for (let i = 0; i < 18; i++) {
-                const e = document.createElement('div');
-                document.body.appendChild(e);
-                Object.assign(e.style, {
-                    position: 'fixed',
-                    left: (50 + (Math.random() * 40 - 20)) + '%',
-                    top: (40 + Math.random() * 20) + '%',
-                    width: '8px',
-                    height: '12px',
-                    background: colors[i % colors.length],
-                    transform: 'translateY(0) rotate(' + (Math.random() * 360) + 'deg)',
-                    borderRadius: '2px',
-                    zIndex: 9999,
-                    opacity: 1
-                });
-                const dx = (Math.random() * 200 - 100), dy = -(100 + Math.random() * 200);
-                e.animate([
-                    { transform: `translateY(0) translateX(0) rotate(0deg)`, opacity: 1 },
-                    { transform: `translateY(${dy}px) translateX(${dx}px) rotate(${720 * Math.random()}deg)`, opacity: 0 }
-                ], { duration: 1400 + Math.random() * 800, easing: 'cubic-bezier(.2,.8,.2,1)' });
-                setTimeout(() => e.remove(), 2200);
+            // Get all files (shared with all users)
+            getAllFiles() {
+                return this.files;
+            }
+            
+            // Get file by ID
+            getFileById(id) {
+                return this.files.find(file => file.id === id);
+            }
+            
+            // Add review to a file
+            addReview(fileId, rating, comment) {
+                const file = this.getFileById(fileId);
+                if (file) {
+                    file.reviews.push({
+                        user: this.currentUser,
+                        rating,
+                        comment,
+                        date: new Date().toLocaleDateString()
+                    });
+                    this.saveFiles();
+                }
+            }
+            
+            // Get file type from extension
+            getFileType(filename) {
+                const extension = filename.split('.').pop().toLowerCase();
+                if (['pdf'].includes(extension)) return 'pdf';
+                if (['doc', 'docx'].includes(extension)) return 'doc';
+                if (['ppt', 'pptx'].includes(extension)) return 'ppt';
+                if (['xls', 'xlsx'].includes(extension)) return 'xls';
+                if (['jpg', 'jpeg', 'png', 'gif', 'bmp'].includes(extension)) return 'image';
+                if (['zip', 'rar', '7z'].includes(extension)) return 'zip';
+                return 'file';
+            }
+            
+            // Format file size
+            formatFileSize(bytes) {
+                if (bytes === 0) return '0 Bytes';
+                const k = 1024;
+                const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+            }
+            
+            // Save files to localStorage
+            saveFiles() {
+                localStorage.setItem('edushare_files', JSON.stringify(this.files));
             }
         }
 
-        // Social login buttons
-        document.getElementById('googleBtn').addEventListener('click', () => {
-            showToast('Google login selected');
-        });
-
-        document.getElementById('microsoftBtn').addEventListener('click', () => {
-            showToast('Microsoft login selected');
-        });
-    </script>
-</body>
-</html>
+        // UI Controller
+        class UIController {
+            constructor(fileManager) {
+                this.fileManager = fileManager;
+                this.currentlyReviewingFileId = null;
+                this.setupEventListeners();
+            }
+            
+            // Setup all event listeners
+            setupEventListeners() {
+                // Login functionality
+                document.getElementById('loginBtn').addEventListener('click', () => this.handleLogin());
+                document.getElementById('guestBtn').addEventListener('click', () => this.handleGuestLogin());
+                document.getElementById('logoutBtn').addEventListener('click', () => this.handleLogout());
+                
+                // Upload modal functionality
+                document.getElementById('showUploadBtn').addEventListener('click', () => this.showUploadModal());
+                document.getElementById('closeModal').addEventListener('click', () => this.hideUploadModal());
+                
+                // File upload functionality
+                document.getElementById('browseBtn').addEventListener('click', () => document.getElementById('fileInput').click());
+                document.getElementById('fileInput').addEventListener('change', (e) => this.handleFileSelect(e));
+                document.getElementById('dropZone').addEventListener('dragover', (e) => this.handleDragOver(e));
+                document.getElementById('dropZone').addEventListener('drop', (e) => this.handleDrop(e));
+                document.getElementById('startUploadBtn').addEventListener('click', () => this.handleFileUpload());
+                
+                // Review modal functionality
+                document.getElementById('closeReviewModal').addEventListener('click', () => this.hideReviewModal());
+                document.getElementById('submitReviewBtn').addEventListener('click', () => this.submitReview());
+                
+                // Rating stars
+                document.querySelectorAll('.rating-star').forEach(star => {
+                    star.addEventListener('click', (e) => this.setRating(parseInt(e.target.getAttribute('data-value'))));
+                });
+            }
+            
+            // Show the main application page
+            showAppPage(username) {
+                document.getElementById('loginPage').style.display = 'none';
+                document.getElementById('appPage').style.display = 'block';
+                document.getElementById('userDisplay').textContent = `Welcome, ${username}`;
+                document.getElementById('userAvatar').textContent = username.charAt(0).toUpperCase();
+                
+                this.renderFiles();
+            }
+            
+            // Show the login page
+            showLoginPage() {
+                document.getElementById('loginPage').style.display = 'flex';
+                document.getElementById('appPage').style.display = 'none';
+            }
+            
+            // Render files to the grid
+            renderFiles() {
+                const filesGrid = document.getElementById('filesGrid');
+                filesGrid.innerHTML = '';
+                
+                const files = this.fileManager.getAllFiles();
+                
+                if (files.length === 0) {
+                    filesGrid.innerHTML = `
+                        <div style="grid-column: 1 / -1; text-align: center; padding: 40px; opacity: 0.7;">
+                            <i class="far fa-folder-open" style="font-size: 48px; margin-bottom: 16px;"></i>
+                            <p>No files shared yet. Upload the first file!</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                // File type icons mapping
+                const fileIcons = {
+                    pdf: 'file-pdf',
+                    doc: 'file-word',
+                    ppt: 'file-powerpoint',
+                    xls: 'file-excel',
+                    image: 'file-image',
+                    zip: 'file-archive',
+                    file: 'file'
+                }
