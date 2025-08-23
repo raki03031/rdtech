@@ -1,271 +1,1672 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Game Login — Demo</title>
-<style>
-  :root{
-    --accent1: #ff4d6d;
-    --accent2: #ffb86b;
-    --bg1: #0f1226;
-    --glass: rgba(255,255,255,0.06);
-    --glass-2: rgba(255,255,255,0.03);
-    --text: #f7f7fb;
-  }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EduShare - File Sharing Platform</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --accent1: #4a6fa5;
+      --accent2: #2c3e50;
+      --accent-light: #ffd43b;
+      --bg1: #0f1226;
+      --glass: rgba(255, 255, 255, 0.06);
+      --glass-2: rgba(255, 255, 255, 0.03);
+      --text: #f7f7fb;
+      --success: #4CAF50;
+      --warning: #FFC107;
+      --danger: #F44336;
+    }
 
-  *{box-sizing:border-box}
-  html,body{height:100%;margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,'Helvetica Neue',Arial;}
-  body{
-    background: radial-gradient(1000px 600px at 10% 10%, rgba(255,77,109,0.08), transparent 10%),
-                radial-gradient(900px 500px at 90% 90%, rgba(255,184,107,0.06), transparent 12%),
-                linear-gradient(180deg,var(--bg1) 0%, #151728 100%);
-    color:var(--text);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:40px;
-    -webkit-font-smoothing:antialiased;
-  }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
 
-  /* floating particle blobs */
-  .blob {
-    position:absolute;
-    filter:blur(40px) saturate(120%);
-    opacity:0.85;
-    mix-blend-mode:screen;
-    border-radius:50%;
-    animation: float 8s ease-in-out infinite;
-  }
-  .blob.a{width:420px;height:420px;background:linear-gradient(135deg,var(--accent1),#a03cff);left:-120px;top:-60px;animation-duration:10s;}
-  .blob.b{width:320px;height:320px;background:linear-gradient(135deg,var(--accent2),#78f6ff);right:-100px;bottom:-80px;animation-duration:12s;opacity:0.6}
-  @keyframes float{0%{transform:translateY(0) translateX(0)}50%{transform:translateY(-24px) translateX(12px)}100%{transform:translateY(0) translateX(0)}}
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+    }
 
-  /* main container */
-  .wrap{
-    width:100%;
-    max-width:980px;
-    display:grid;
-    grid-template-columns: 1fr 420px;
-    gap:32px;
-    align-items:center;
-    position:relative;
-    z-index:2;
-  }
+    body {
+      background: radial-gradient(1000px 600px at 10% 10%, rgba(74, 111, 165, 0.08), transparent 10%),
+        radial-gradient(900px 500px at 90% 90%, rgba(255, 212, 59, 0.06), transparent 12%),
+        linear-gradient(180deg, var(--accent2) 0%, #151728 100%);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
 
-  /* left: hero */
-  .hero{
-    padding:28px;
-    color:var(--text);
-  }
-  .logo-anim{
-    width:160px;height:160px;border-radius:18px;
-    background: conic-gradient(from 200deg,var(--accent1), #8e3bff, var(--accent2));
-    display:flex;align-items:center;justify-content:center;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.6), inset 0 -6px 30px rgba(255,255,255,0.06);
-    transform:rotate(-12deg) translateZ(0);
-    animation: logo-bounce 1600ms ease infinite;
-  }
-  .logo-anim img{width:84%;height:84%;object-fit:contain;filter:drop-shadow(0 6px 18px rgba(0,0,0,0.45));}
-  @keyframes logo-bounce{0%{transform:rotate(-12deg) translateY(0)}50%{transform:rotate(-10deg) translateY(-12px)}100%{transform:rotate(-12deg) translateY(0)}}
+    /* Header styles */
+    header {
+      background: rgba(15, 18, 38, 0.8);
+      backdrop-filter: blur(8px);
+      padding: 16px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
 
-  h1{font-size:32px;margin:18px 0 8px;letter-spacing:0.6px}
-  p.lead{opacity:0.85;margin:0 0 18px;line-height:1.35}
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
 
-  .features{display:flex;gap:12px;margin-top:18px}
-  .chip{padding:8px 12px;background:var(--glass);backdrop-filter:blur(6px);border-radius:999px;font-size:13px;opacity:0.95}
+    .logo i {
+      font-size: 24px;
+      color: var(--accent-light);
+    }
 
-  /* right: login card */
-  .card{
-    background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
-    border-radius:18px;
-    padding:22px;
-    box-shadow: 0 10px 40px rgba(6,6,10,0.6);
-    border: 1px solid rgba(255,255,255,0.04);
-    backdrop-filter: blur(8px);
-  }
+    .logo h1 {
+      font-size: 22px;
+      margin: 0;
+    }
 
-  .card h2{margin:6px 0 14px;font-size:18px}
-  .form-row{display:flex;flex-direction:column;gap:12px}
-  .input{
-    background:var(--glass-2);
-    border:1px solid rgba(255,255,255,0.04);
-    padding:12px 14px;border-radius:12px;color:var(--text);
-    outline:none;font-size:15px;
-    transition:transform .18s ease, box-shadow .18s ease, border-color .12s;
-  }
-  .input:focus{transform:translateY(-3px);box-shadow:0 8px 20px rgba(12,12,20,0.45);border-color:rgba(255,255,255,0.09)}
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
 
-  .btn{
-    margin-top:6px;
-    background:linear-gradient(90deg,var(--accent1),var(--accent2));
-    border:none;color:#111;padding:12px;border-radius:12px;font-weight:600;font-size:16px;cursor:pointer;
-    box-shadow:0 8px 30px rgba(255,77,109,0.12);
-  }
-  .btn.secondary{
-    background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--text);font-weight:600;
-  }
+    .user-info img {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--accent1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-  .small-row{display:flex;justify-content:space-between;align-items:center;margin-top:10px;font-size:13px;opacity:0.9}
-  .socials{display:flex;gap:10px;margin-top:14px}
-  .social{
-    flex:1;padding:10px;border-radius:10px;text-align:center;background:rgba(255,255,255,0.02);
-    border:1px solid rgba(255,255,255,0.03);cursor:pointer;font-weight:600;
-  }
+    /* Main content area */
+    main {
+      flex: 1;
+      padding: 30px 40px;
+      overflow-y: auto;
+    }
 
-  .or{display:flex;align-items:center;gap:12px;margin:14px 0;opacity:0.7}
-  .or:before,.or:after{content:"";height:1px;background:rgba(255,255,255,0.03);flex:1;border-radius:2px}
+    .page {
+      display: none;
+    }
 
-  /* small animated sparks (top right) */
-  .spark{position:absolute;right:22px;top:12px;width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.7);opacity:0.08;box-shadow:0 0 14px rgba(255,255,255,0.12);animation:blink 2s linear infinite}
-  .spark.s2{right:60px;top:34px;animation-delay:.4s}
-  .spark.s3{right:30px;top:66px;animation-delay:.9s}
-  @keyframes blink{0%{transform:scale(.6);opacity:.05}50%{transform:scale(1.6);opacity:.9}100%{transform:scale(.6);opacity:.05}}
+    .page.active {
+      display: block;
+    }
 
-  /* error shake */
-  .shake{animation: shake .5s}
-  @keyframes shake{
-    10%{transform:translateX(-6px)}
-    30%{transform:translateX(6px)}
-    50%{transform:translateX(-6px)}
-    70%{transform:translateX(6px)}
-    100%{transform:translateX(0)}
-  }
+    /* Dashboard styles */
+    .dashboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+    }
 
-  /* responsiveness */
-  @media (max-width:880px){
-    .wrap{grid-template-columns:1fr;gap:18px;padding:18px}
-    .hero{order:2;text-align:center}
-    .logo-anim{margin:0 auto}
-  }
-</style>
+    .upload-btn {
+      background: linear-gradient(90deg, var(--accent1), var(--accent-light));
+      border: none;
+      color: #111;
+      padding: 10px 20px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      box-shadow: 0 8px 30px rgba(74, 111, 165, 0.12);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .upload-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 35px rgba(74, 111, 165, 0.2);
+    }
+
+    .files-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .file-card {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.02));
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: 0 8px 24px rgba(6, 6, 10, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(8px);
+      transition: transform 0.2s ease;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .file-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(255, 255, 255, 0.08);
+    }
+
+    .file-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 10px;
+      background: var(--accent1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 12px;
+      font-size: 20px;
+    }
+
+    .file-name {
+      font-weight: 600;
+      margin-bottom: 6px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .file-details {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      opacity: 0.7;
+      margin-bottom: 12px;
+    }
+
+    .file-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .action-btn {
+      flex: 1;
+      padding: 6px 10px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+    }
+
+    .download-btn {
+      background: var(--accent1);
+      color: white;
+    }
+
+    .download-btn:hover {
+      background: #3d5d8f;
+    }
+
+    .review-btn {
+      background: var(--glass);
+      color: var(--text);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .review-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .preview-btn {
+      background: var(--accent-light);
+      color: #111;
+    }
+
+    .preview-btn:hover {
+      background: #e6bc2c;
+    }
+
+    /* Upload modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(4px);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: linear-gradient(180deg, rgba(30, 33, 55, 0.9), rgba(20, 23, 40, 0.9));
+      border-radius: 16px;
+      padding: 24px;
+      width: 90%;
+      max-width: 500px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      color: var(--text);
+      font-size: 24px;
+      cursor: pointer;
+      opacity: 0.7;
+    }
+
+    .close-btn:hover {
+      opacity: 1;
+    }
+
+    .drop-zone {
+      border: 2px dashed rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 40px 20px;
+      text-align: center;
+      margin-bottom: 20px;
+      transition: all 0.3s ease;
+    }
+
+    .drop-zone.active {
+      border-color: var(--accent-light);
+      background: rgba(255, 212, 59, 0.05);
+    }
+
+    .drop-zone i {
+      font-size: 42px;
+      margin-bottom: 12px;
+      color: var(--accent-light);
+    }
+
+    .file-input {
+      display: none;
+    }
+
+    .browse-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: var(--text);
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .browse-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .upload-list {
+      margin-top: 20px;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+
+    .upload-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 8px;
+      margin-bottom: 8px;
+    }
+
+    .upload-item-name {
+      font-size: 14px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      flex: 1;
+    }
+
+    .upload-item-remove {
+      color: #ff6b6b;
+      cursor: pointer;
+      margin-left: 10px;
+    }
+
+    /* Review modal */
+    .review-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(4px);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .review-modal.active {
+      display: flex;
+    }
+
+    .review-content {
+      background: linear-gradient(180deg, rgba(30, 33, 55, 0.9), rgba(20, 23, 40, 0.9));
+      border-radius: 16px;
+      padding: 24px;
+      width: 90%;
+      max-width: 500px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .review-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .review-file-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .review-file-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      background: var(--accent1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+    }
+
+    .review-file-details {
+      flex: 1;
+    }
+
+    .review-file-name {
+      font-weight: 600;
+      margin-bottom: 4px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .review-file-meta {
+      font-size: 12px;
+      opacity: 0.7;
+    }
+
+    .rating {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin: 20px 0;
+    }
+
+    .rating-star {
+      font-size: 28px;
+      color: #555;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+
+    .rating-star.active {
+      color: var(--accent-light);
+    }
+
+    .review-text {
+      width: 100%;
+      background: var(--glass-2);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      padding: 12px 14px;
+      border-radius: 12px;
+      color: var(--text);
+      outline: none;
+      font-size: 15px;
+      margin-bottom: 20px;
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .submit-review {
+      background: linear-gradient(90deg, var(--accent1), var(--accent-light));
+      border: none;
+      color: #111;
+      padding: 12px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 16px;
+      cursor: pointer;
+      width: 100%;
+      box-shadow: 0 8px 30px rgba(74, 111, 165, 0.12);
+      transition: all 0.3s ease;
+    }
+
+    .submit-review:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 35px rgba(74, 111, 165, 0.2);
+    }
+
+    /* Preview page styles */
+    .preview-container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .preview-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+
+    .back-btn {
+      background: var(--glass);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      color: var(--text);
+      padding: 10px 16px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .back-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .preview-content {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.02));
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 8px 24px rgba(6, 6, 10, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(8px);
+      margin-bottom: 24px;
+    }
+
+    .preview-file-info {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .preview-file-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 12px;
+      background: var(--accent1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+    }
+
+    .preview-file-details {
+      flex: 1;
+    }
+
+    .preview-file-name {
+      font-weight: 600;
+      font-size: 20px;
+      margin-bottom: 6px;
+    }
+
+    .preview-file-meta {
+      display: flex;
+      gap: 16px;
+      font-size: 14px;
+      opacity: 0.8;
+    }
+
+    .preview-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .preview-main-btn {
+      background: linear-gradient(90deg, var(--accent1), var(--accent-light));
+      border: none;
+      color: #111;
+      padding: 12px 20px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 16px;
+      cursor: pointer;
+      box-shadow: 0 8px 30px rgba(74, 111, 165, 0.12);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .preview-main-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 35px rgba(74, 111, 165, 0.2);
+    }
+
+    .preview-secondary-btn {
+      background: var(--glass);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      color: var(--text);
+      padding: 12px 20px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .preview-secondary-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .preview-area {
+      background: var(--glass-2);
+      border-radius: 12px;
+      padding: 20px;
+      min-height: 400px;
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .preview-area i {
+      font-size: 64px;
+      margin-bottom: 16px;
+      opacity: 0.7;
+    }
+
+    .preview-area p {
+      opacity: 0.8;
+      max-width: 400px;
+      line-height: 1.5;
+    }
+
+    .file-reviews {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.02));
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 8px 24px rgba(6, 6, 10, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(8px);
+    }
+
+    .file-reviews h3 {
+      margin-bottom: 20px;
+      font-size: 18px;
+    }
+
+    .review-item {
+      padding: 16px;
+      background: var(--glass-2);
+      border-radius: 12px;
+      margin-bottom: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    .review-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .reviewer {
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .review-date {
+      font-size: 12px;
+      opacity: 0.7;
+    }
+
+    .review-rating {
+      color: var(--accent-light);
+      margin-bottom: 8px;
+    }
+
+    .review-comment {
+      font-size: 14px;
+      line-height: 1.5;
+      opacity: 0.9;
+    }
+
+    .no-reviews {
+      text-align: center;
+      padding: 40px;
+      opacity: 0.7;
+    }
+
+    /* Login page styles */
+    .login-container {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+    }
+
+    /* floating particle blobs */
+    .blob {
+      position: absolute;
+      filter: blur(40px) saturate(120%);
+      opacity: 0.85;
+      mix-blend-mode: screen;
+      border-radius: 50%;
+      animation: float 8s ease-in-out infinite;
+    }
+
+    .blob.a {
+      width: 420px;
+      height: 420px;
+      background: linear-gradient(135deg, var(--accent1), #3b5998);
+      left: -120px;
+      top: -60px;
+      animation-duration: 10s;
+    }
+
+    .blob.b {
+      width: 320px;
+      height: 320px;
+      background: linear-gradient(135deg, var(--accent-light), #78a6ff);
+      right: -100px;
+      bottom: -80px;
+      animation-duration: 12s;
+      opacity: 0.6;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(0) translateX(0);
+      }
+
+      50% {
+        transform: translateY(-24px) translateX(12px);
+      }
+
+      100% {
+        transform: translateY(0) translateX(0);
+      }
+    }
+
+    /* main container */
+    .wrap {
+      width: 100%;
+      max-width: 980px;
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      gap: 32px;
+      align-items: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* left: hero */
+    .hero {
+      padding: 28px;
+      color: var(--text);
+    }
+
+    .logo-anim {
+      width: 160px;
+      height: 160px;
+      border-radius: 18px;
+      background: conic-gradient(from 200deg, var(--accent1), #3b5998, var(--accent-light));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6), inset 0 -6px 30px rgba(255, 255, 255, 0.06);
+      transform: rotate(-12deg) translateZ(0);
+      animation: logo-bounce 1600ms ease infinite;
+    }
+
+    .logo-anim i {
+      font-size: 70px;
+      color: white;
+      filter: drop-shadow(0 6px 18px rgba(0, 0, 0, 0.45));
+    }
+
+    @keyframes logo-bounce {
+      0% {
+        transform: rotate(-12deg) translateY(0);
+      }
+
+      50% {
+        transform: rotate(-10deg) translateY(-12px);
+      }
+
+      100% {
+        transform: rotate(-12deg) translateY(0);
+      }
+    }
+
+    h1 {
+      font-size: 32px;
+      margin: 18px 0 8px;
+      letter-spacing: 0.6px;
+    }
+
+    p.lead {
+      opacity: 0.85;
+      margin: 0 0 18px;
+      line-height: 1.35;
+    }
+
+    .features {
+      display: flex;
+      gap: 12px;
+      margin-top: 18px;
+      flex-wrap: wrap;
+    }
+
+    .chip {
+      padding: 8px 12px;
+      background: var(--glass);
+      backdrop-filter: blur(6px);
+      border-radius: 999px;
+      font-size: 13px;
+      opacity: 0.95;
+    }
+
+    /* right: login card */
+    .card {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.02));
+      border-radius: 18px;
+      padding: 22px;
+      box-shadow: 0 10px 40px rgba(6, 6, 10, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(8px);
+    }
+
+    .card h2 {
+      margin: 6px 0 14px;
+      font-size: 18px;
+    }
+
+    .form-row {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .input {
+      background: var(--glass-2);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      padding: 12px 14px;
+      border-radius: 12px;
+      color: var(--text);
+      outline: none;
+      font-size: 15px;
+      transition: transform .18s ease, box-shadow .18s ease, border-color .12s;
+    }
+
+    .input:focus {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(12, 12, 20, 0.45);
+      border-color: rgba(255, 255, 255, 0.09);
+    }
+
+    .btn {
+      margin-top: 6px;
+      background: linear-gradient(90deg, var(--accent1), var(--accent-light));
+      border: none;
+      color: #111;
+      padding: 12px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 16px;
+      cursor: pointer;
+      box-shadow: 0 8px 30px rgba(74, 111, 165, 0.12);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 35px rgba(74, 111, 165, 0.2);
+    }
+
+    .btn.secondary {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .btn.secondary:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .small-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 10px;
+      font-size: 13px;
+      opacity: 0.9;
+    }
+
+    .socials {
+      display: flex;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .social {
+      flex: 1;
+      padding: 10px;
+      border-radius: 10px;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.03);
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+
+    .social:hover {
+      background: rgba(255, 255, 255, 0.05);
+      transform: translateY(-2px);
+    }
+
+    .or {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 14px 0;
+      opacity: 0.7;
+    }
+
+    .or:before,
+    .or:after {
+      content: "";
+      height: 1px;
+      background: rgba(255, 255, 255, 0.03);
+      flex: 1;
+      border-radius: 2px;
+    }
+
+    /* small animated sparks (top right) */
+    .spark {
+      position: absolute;
+      right: 22px;
+      top: 12px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.7);
+      opacity: 0.08;
+      box-shadow: 0 0 14px rgba(255, 255, 255, 0.12);
+      animation: blink 2s linear infinite;
+    }
+
+    .spark.s2 {
+      right: 60px;
+      top: 34px;
+      animation-delay: .4s;
+    }
+
+    .spark.s3 {
+      right: 30px;
+      top: 66px;
+      animation-delay: .9s;
+    }
+
+    @keyframes blink {
+      0% {
+        transform: scale(.6);
+        opacity: .05;
+      }
+
+      50% {
+        transform: scale(1.6);
+        opacity: .9;
+      }
+
+      100% {
+        transform: scale(.6);
+        opacity: .05;
+      }
+    }
+
+    /* error shake */
+    .shake {
+      animation: shake .5s;
+    }
+
+    @keyframes shake {
+      10% {
+        transform: translateX(-6px);
+      }
+
+      30% {
+        transform: translateX(6px);
+      }
+
+      50% {
+        transform: translateX(-6px);
+      }
+
+      70% {
+        transform: translateX(6px);
+      }
+
+      100% {
+        transform: translateX(0);
+      }
+    }
+
+    /* responsiveness */
+    @media (max-width: 880px) {
+      .wrap {
+        grid-template-columns: 1fr;
+        gap: 18px;
+        padding: 18px;
+      }
+
+      .hero {
+        order: 2;
+        text-align: center;
+      }
+
+      .logo-anim {
+        margin: 0 auto;
+      }
+
+      .files-grid {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      }
+
+      header {
+        padding: 16px 20px;
+      }
+
+      main {
+        padding: 20px;
+      }
+
+      .preview-file-info {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .preview-actions {
+        flex-direction: column;
+      }
+    }
+  </style>
 </head>
+
 <body>
-  <div class="blob a" aria-hidden="true"></div>
-  <div class="blob b" aria-hidden="true"></div>
+  <!-- Login Page -->
+  <div id="loginPage" class="login-container">
+    <div class="blob a" aria-hidden="true"></div>
+    <div class="blob b" aria-hidden="true"></div>
 
-  <div class="wrap" role="main">
-    <div class="hero" aria-hidden="false">
-      <div class="logo-anim" aria-hidden="true">
-        <!-- simple stylized emblem -->
-        <svg width="96" height="96" viewBox="0 0 24 24" fill="none" style="transform:rotate(8deg)">
-          <path d="M2 12c0 5.5 4.5 10 10 10s10-4.5 10-10S17.5 2 12 2 2 6.5 2 12z" fill="#fff" opacity=".06"/>
-          <path d="M7 11c0 0 3-6 5-6s5 6 5 6c.5 1-1.3 2.8-3 4-1.9 1.4-4.6 1.2-6 0-1.6-1.4-1-3-1-4z" fill="rgba(255,255,255,0.9)"/>
-        </svg>
-      </div>
-
-      <h1>PHOENIX ARENA</h1>
-      <p class="lead">Join the battle. Fast matchmaking, live events, and daily rewards — step into the arena and fight to be the last one standing.</p>
-
-      <div class="features" aria-hidden="true">
-        <div class="chip">Quick Match</div>
-        <div class="chip">Team Play</div>
-        <div class="chip">Daily Rewards</div>
-      </div>
-    </div>
-
-    <div class="card" id="card">
-      <div style="position:relative">
-        <span class="spark"></span><span class="spark s2"></span><span class="spark s3"></span>
-        <h2>STUDENT LOGIN</h2>
-      </div>
-
-      <div class="form-row">
-        <input id="username" class="input" type="text" placeholder="Enter username or email" autocomplete="username" />
-        <input id="password" class="input" type="password" placeholder="Password" autocomplete="current-password" />
-        <button id="loginBtn" class="btn">LOGIN</button>
-        <button id="guestBtn" class="btn secondary">Play as Guest</button>
-
-        <div class="or"><span>or</span></div>
-
-        <div class="socials">
-          <div class="social" id="fbBtn">Facebook</div>
-          <div class="social" id="gglBtn">Google</div>
+    <div class="wrap" role="main">
+      <div class="hero">
+        <div class="logo-anim" aria-hidden="true">
+          <i class="fas fa-file-import"></i>
         </div>
 
-        <div class="small-row" style="margin-top:12px">
-          <label style="display:flex;align-items:center;gap:8px"><input type="checkbox" /> Remember</label>
-          <a href="#" style="color:rgba(255,255,255,0.8);text-decoration:none">Forgot?</a>
+        <h1>EDUSHARE</h1>
+        <p class="lead">Share educational resources securely. Upload, preview, and collaborate on documents with your
+          classmates and teachers.</p>
+
+        <div class="features" aria-hidden="true">
+          <div class="chip">Secure Sharing</div>
+          <div class="chip">Class Groups</div>
+          <div class="chip">Annotations</div>
+        </div>
+      </div>
+
+      <div class="card" id="card">
+        <div style="position:relative">
+          <span class="spark"></span>
+          <span class="spark s2"></span>
+          <span class="spark s3"></span>
+          <h2>EDUSHARE LOGIN</h2>
+        </div>
+
+        <div class="form-row">
+          <input id="username" class="input" type="text" placeholder="Enter username or email"
+            autocomplete="username" />
+          <input id="password" class="input" type="password" placeholder="Password" autocomplete="current-password" />
+          <button id="loginBtn" class="btn">LOGIN</button>
+          <button id="guestBtn" class="btn secondary">Continue as Guest</button>
+
+          <div class="or"><span>or</span></div>
+
+          <div class="socials">
+            <div class="social" id="googleBtn">Google</div>
+            <div class="social" id="microsoftBtn">Microsoft</div>
+          </div>
+
+          <div class="small-row" style="margin-top:12px">
+            <label style="display:flex;align-items:center;gap:8px">
+              <input type="checkbox" id="rememberMe" /> Remember me
+            </label>
+            <a href="#" style="color:rgba(255,255,255,0.8);text-decoration:none">Forgot password?</a>
+          </div>
+
+          <div class="small-row" style="justify-content: center; margin-top: 20px;">
+            <span>Don't have an account? <a href="#" style="color:var(--accent-light);text-decoration:none">Sign
+                up</a></span>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
-<script>
-  // Basic simulated login interaction + small animations
-  const loginBtn = document.getElementById('loginBtn');
-  const guestBtn = document.getElementById('guestBtn');
-  const card = document.getElementById('card');
+  <!-- Main App (initially hidden) -->
+  <div id="appPage" style="display: none;">
 
-  function showToast(msg){
-    const t = document.createElement('div');
-    t.textContent = msg;
-    Object.assign(t.style, {
-      position:'fixed',left:'50%',transform:'translateX(-50%)',bottom:'28px',
-      background:'rgba(0,0,0,0.6)',color:'#fff',padding:'10px 14px',borderRadius:'10px',zIndex:9999
-    });
-    document.body.appendChild(t);
-    setTimeout(()=> t.style.opacity = '0', 1800);
-    setTimeout(()=> t.remove(), 2600);
-  }
 
-  loginBtn.addEventListener('click', ()=>{
-    const u = document.getElementById('username').value.trim();
-    const p = document.getElementById('password').value.trim();
+    <main>
+      <header>
+        <div class="logo">
+          <i class="fas fa-file-import"></i>
+          <h1>EDUSHARE</h1>
+        </div>
+        <div class="user-info">
+          <span id="userDisplay">Welcome, User</span>
+          <div id="userAvatar"
+            style="width: 36px; height: 36px; border-radius: 50%; background: var(--accent1); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">
+          </div>
+          <button id="logoutBtn" class="btn secondary">Logout</button>
+        </div>
+      </header>
+      <div id="dashboardPage" class="page active">
+        <div class="dashboard-header">
+          <h2>Shared Files</h2>
+          <button id="showUploadBtn" class="upload-btn">
+            <i class="fas fa-cloud-upload-alt"></i> Upload File
+          </button>
+        </div>
 
-    // tiny validation
-    if(!u || !p){
-      card.classList.remove('shake'); void card.offsetWidth; // restart animation
-      card.classList.add('shake');
-      showToast('Enter username and password');
-      return;
+        <div class="files-grid" id="filesGrid">
+          <!-- Files will be dynamically added here -->
+        </div>
+      </div>
+
+      <!-- Preview Page -->
+      <div id="previewPage" class="page">
+        <div class="preview-container">
+          <div class="preview-header">
+            <button id="backToDashboard" class="back-btn">
+              <i class="fas fa-arrow-left"></i> Back to Files
+            </button>
+            <h2>File Preview</h2>
+          </div>
+
+          <div class="preview-content">
+            <div class="preview-file-info">
+              <div class="preview-file-icon" id="previewFileIcon">
+                <i class="far fa-file"></i>
+              </div>
+              <div class="preview-file-details">
+                <div class="preview-file-name" id="previewFileName">File Name</div>
+                <div class="preview-file-meta" id="previewFileMeta">
+                  <span id="previewFileSize">0 KB</span>
+                  <span id="previewFileType">PDF</span>
+                  <span id="previewFileDate">Jan 1, 2023</span>
+                  <span id="previewFileOwner">By: User</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="preview-actions">
+              <button id="downloadPreviewBtn" class="preview-main-btn">
+                <i class="fas fa-download"></i> Download File
+              </button>
+              <button id="reviewPreviewBtn" class="preview-secondary-btn">
+                <i class="fas fa-star"></i> Add Review
+              </button>
+            </div>
+
+            <div class="preview-area" id="previewArea">
+              <i class="fas fa-file"></i>
+              <p>Preview not available for this file type. Download to view the file.</p>
+            </div>
+          </div>
+
+          <div class="file-reviews">
+            <h3>Reviews</h3>
+            <div id="reviewsList">
+              <!-- Reviews will be dynamically added here -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Upload Modal -->
+    <div id="uploadModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Upload Files</h3>
+          <button class="close-btn">&times;</button>
+        </div>
+        <div class="drop-zone" id="dropZone">
+          <i class="fas fa-cloud-upload-alt"></i>
+          <p>Drag and drop files here or click to browse</p>
+          <input type="file" id="fileInput" class="file-input" multiple>
+          <button class="browse-btn">Browse Files</button>
+        </div>
+        <div class="upload-list" id="uploadList">
+          <!-- Uploaded files will be listed here -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Review Modal -->
+    <div id="reviewModal" class="review-modal">
+      <div class="review-content">
+        <div class="review-header">
+          <h3>Review File</h3>
+          <button class="close-btn">&times;</button>
+        </div>
+        <div class="review-file-info">
+          <div class="review-file-icon" id="reviewFileIcon">
+            <i class="far fa-file"></i>
+          </div>
+          <div class="review-file-details">
+            <div class="review-file-name" id="reviewFileName">File Name</div>
+            <div class="review-file-meta" id="reviewFileMeta">PDF • 2.4 MB</div>
+          </div>
+        </div>
+        <div class="rating" id="ratingStars">
+          <span class="rating-star" data-value="1">☆</span>
+          <span class="rating-star" data-value="2">☆</span>
+          <span class="rating-star" data-value="3">☆</span>
+          <span class="rating-star" data-value="4">☆</span>
+          <span class="rating-star" data-value="5">☆</span>
+        </div>
+        <textarea class="review-text" id="reviewText" placeholder="Write your review here..."></textarea>
+        <button class="submit-review" id="submitReviewBtn">Submit Review</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // DOM Elements
+    const loginPage = document.getElementById('loginPage');
+    const appPage = document.getElementById('appPage');
+    const usernameInput = document.getElementById('username');
+    const passwordInput = document.getElementById('password');
+    const loginBtn = document.getElementById('loginBtn');
+    const guestBtn = document.getElementById('guestBtn');
+    const userDisplay = document.getElementById('userDisplay');
+    const userAvatar = document.getElementById('userAvatar');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const showUploadBtn = document.getElementById('showUploadBtn');
+    const uploadModal = document.getElementById('uploadModal');
+    const closeModalBtns = document.querySelectorAll('.close-btn');
+    const dropZone = document.getElementById('dropZone');
+    const fileInput = document.getElementById('fileInput');
+    const browseBtn = document.querySelector('.browse-btn');
+    const uploadList = document.getElementById('uploadList');
+    const filesGrid = document.getElementById('filesGrid');
+    const reviewModal = document.getElementById('reviewModal');
+    const ratingStars = document.querySelectorAll('.rating-star');
+    const submitReviewBtn = document.getElementById('submitReviewBtn');
+    const reviewText = document.getElementById('reviewText');
+    const dashboardPage = document.getElementById('dashboardPage');
+    const previewPage = document.getElementById('previewPage');
+    const backToDashboard = document.getElementById('backToDashboard');
+    const previewFileName = document.getElementById('previewFileName');
+    const previewFileIcon = document.getElementById('previewFileIcon');
+    const previewFileSize = document.getElementById('previewFileSize');
+    const previewFileType = document.getElementById('previewFileType');
+    const previewFileDate = document.getElementById('previewFileDate');
+    const previewFileOwner = document.getElementById('previewFileOwner');
+    const previewArea = document.getElementById('previewArea');
+    const downloadPreviewBtn = document.getElementById('downloadPreviewBtn');
+    const reviewPreviewBtn = document.getElementById('reviewPreviewBtn');
+    const reviewsList = document.getElementById('reviewsList');
+
+    // State
+    let currentUser = null;
+    let uploadedFiles = [];
+    let selectedFile = null;
+    let currentRating = 0;
+
+    // Sample files data
+    const sampleFiles = [
+      { id: 1, name: 'Lecture Notes.pdf', type: 'pdf', size: '2.4 MB', date: 'Jan 12, 2023', owner: 'Prof. Johnson', icon: 'far fa-file-pdf', color: '#F44336' },
+      { id: 2, name: 'Assignment.docx', type: 'doc', size: '1.2 MB', date: 'Feb 3, 2023', owner: 'Dr. Smith', icon: 'far fa-file-word', color: '#2196F3' },
+      { id: 3, name: 'Presentation.pptx', type: 'ppt', size: '4.7 MB', date: 'Mar 15, 2023', owner: 'Sarah M.', icon: 'far fa-file-powerpoint', color: '#FF9800' },
+      { id: 4, name: 'Research Data.xlsx', type: 'xls', size: '3.1 MB', date: 'Apr 22, 2023', owner: 'Data Team', icon: 'far fa-file-excel', color: '#4CAF50' },
+      { id: 5, name: 'Study Guide.txt', type: 'txt', size: '0.5 MB', date: 'May 5, 2023', owner: 'Study Group', icon: 'far fa-file-alt', color: '#9E9E9E' },
+      { id: 6, name: 'Code Examples.zip', type: 'zip', size: '8.9 MB', date: 'Jun 18, 2023', owner: 'Dev Team', icon: 'far fa-file-archive', color: '#795548' }
+    ];
+
+    // Sample reviews data
+    const sampleReviews = [
+      { id: 1, fileId: 1, user: 'Student A', rating: 5, comment: 'Very comprehensive notes, helped me ace the exam!', date: 'Jan 15, 2023' },
+      { id: 2, fileId: 1, user: 'Student B', rating: 4, comment: 'Good material, but could use more examples.', date: 'Jan 20, 2023' },
+      { id: 3, fileId: 4, user: 'Researcher X', rating: 5, comment: 'Excellent dataset, very well organized.', date: 'Apr 25, 2023' }
+    ];
+
+    // Initialize the app
+    function init() {
+      // Add event listeners
+      loginBtn.addEventListener('click', handleLogin);
+      guestBtn.addEventListener('click', handleGuestLogin);
+      logoutBtn.addEventListener('click', handleLogout);
+      showUploadBtn.addEventListener('click', () => uploadModal.classList.add('active'));
+      closeModalBtns.forEach(btn => btn.addEventListener('click', closeModals));
+      browseBtn.addEventListener('click', () => fileInput.click());
+      fileInput.addEventListener('change', handleFileSelect);
+      dropZone.addEventListener('dragover', handleDragOver);
+      dropZone.addEventListener('drop', handleDrop);
+      ratingStars.forEach(star => star.addEventListener('click', handleRating));
+      submitReviewBtn.addEventListener('click', handleReviewSubmit);
+      backToDashboard.addEventListener('click', () => showPage(dashboardPage));
+      downloadPreviewBtn.addEventListener('click', downloadFile);
+      reviewPreviewBtn.addEventListener('click', showReviewModal);
+
+      // Render sample files
+      renderFiles(sampleFiles);
     }
 
-    // pretend auth delay
-    loginBtn.disabled = true;
-    loginBtn.textContent = 'Connecting...';
-    setTimeout(()=> {
-      loginBtn.disabled = false;
-      loginBtn.textContent = 'LOGIN';
-      // fake "success" if password == "winner"
-      if(p.toLowerCase() === 'winner'){
-        showToast('Login successful — welcome back, ' + u + '!');
-        // small confetti effect
-        confettiBurst();
-      } else {
-        showToast('Authentication failed — try password "winner"');
-        card.classList.remove('shake'); void card.offsetWidth;
-        card.classList.add('shake');
+    // Login handlers
+    function handleLogin() {
+      const username = usernameInput.value.trim();
+      const password = passwordInput.value;
+
+      if (!username || !password) {
+        shakeElement(document.getElementById('card'));
+        return;
       }
-    }, 1300);
-  });
 
-  guestBtn.addEventListener('click', ()=>{
-    showToast('Entering as guest...');
-    setTimeout(()=> showToast('Welcome, Guest! Good luck in the arena'), 700);
-  });
-
-  // simple confetti burst
-  function confettiBurst(){
-    const colors = ['#ff4d6d','#ffb86b','#8e3bff','#78f6ff'];
-    for(let i=0;i<18;i++){
-      const e = document.createElement('div');
-      document.body.appendChild(e);
-      Object.assign(e.style, {
-        position:'fixed',left: (50 + (Math.random()*40-20)) + '%',
-        top: (40 + Math.random()*20) + '%',
-        width:'8px',height:'12px',background:colors[i % colors.length],
-        transform: 'translateY(0) rotate('+ (Math.random()*360)+'deg)',
-        borderRadius:'2px',zIndex:9999,opacity:1
-      });
-      const dx = (Math.random()*200 - 100), dy = -(100 + Math.random()*200);
-      e.animate([
-        { transform: `translateY(0) translateX(0) rotate(0deg)`, opacity:1 },
-        { transform: `translateY(${dy}px) translateX(${dx}px) rotate(${720*Math.random()}deg)`, opacity:0 }
-      ], { duration: 1400 + Math.random()*800, easing:'cubic-bezier(.2,.8,.2,1)'});
-      setTimeout(()=> e.remove(), 2200);
+      currentUser = username;
+      userDisplay.textContent = `Welcome, ${username}`;
+      userAvatar.textContent = username.charAt(0).toUpperCase();
+      loginPage.style.display = 'none';
+      appPage.style.display = 'flex';
     }
-  }
-</script>
+
+    function handleGuestLogin() {
+      currentUser = 'Guest';
+      userDisplay.textContent = 'Welcome, Guest';
+      userAvatar.textContent = 'G';
+      loginPage.style.display = 'none';
+      appPage.style.display = 'flex';
+    }
+
+    function handleLogout() {
+      currentUser = null;
+      usernameInput.value = '';
+      passwordInput.value = '';
+      appPage.style.display = 'none';
+      loginPage.style.display = 'flex';
+    }
+
+    // File upload handlers
+    function handleDragOver(e) {
+      e.preventDefault();
+      dropZone.classList.add('active');
+    }
+
+    function handleDrop(e) {
+      e.preventDefault();
+      dropZone.classList.remove('active');
+
+      const files = e.dataTransfer.files;
+      handleFiles(files);
+    }
+
+    function handleFileSelect() {
+      const files = fileInput.files;
+      handleFiles(files);
+    }
+
+    function handleFiles(files) {
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        addFileToUploadList(file);
+      }
+    }
+
+    function addFileToUploadList(file) {
+      const fileId = Date.now() + Math.floor(Math.random() * 1000);
+      const listItem = document.createElement('div');
+      listItem.className = 'upload-item';
+      listItem.innerHTML = `
+                <div class="upload-item-name">${file.name}</div>
+                <div class="upload-item-remove" data-id="${fileId}">&times;</div>
+            `;
+      uploadList.appendChild(listItem);
+
+      // Add remove functionality
+      listItem.querySelector('.upload-item-remove').addEventListener('click', function () {
+        listItem.remove();
+      });
+
+      // Simulate upload completion after 2 seconds
+      setTimeout(() => {
+        listItem.querySelector('.upload-item-remove').innerHTML = '<i class="fas fa-check" style="color: var(--success);"></i>';
+
+        // Add file to the files list
+        const fileType = getFileType(file.name);
+        const newFile = {
+          id: fileId,
+          name: file.name,
+          type: fileType,
+          size: formatFileSize(file.size),
+          date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+          owner: currentUser,
+          icon: getFileIcon(fileType),
+          color: getFileColor(fileType)
+        };
+
+        uploadedFiles.push(newFile);
+        renderFiles([...sampleFiles, ...uploadedFiles]);
+      }, 2000);
+    }
+
+    // File utilities
+    function getFileType(filename) {
+      const extension = filename.split('.').pop().toLowerCase();
+      if (['pdf'].includes(extension)) return 'pdf';
+      if (['doc', 'docx'].includes(extension)) return 'doc';
+      if (['ppt', 'pptx'].includes(extension)) return 'ppt';
+      if (['xls', 'xlsx'].includes(extension)) return 'xls';
+      if (['txt', 'text'].includes(extension)) return 'txt';
+      if (['zip', 'rar', '7z'].includes(extension)) return 'zip';
+      if (['jpg', 'jpeg', 'png', 'gif', 'bmp'].includes(extension)) return 'image';
+      return 'other';
+    }
+
+    function getFileIcon(fileType) {
+      const icons = {
+        'pdf': 'far fa-file-pdf',
+        'doc': 'far fa-file-word',
+        'ppt': 'far fa-file-powerpoint',
+        'xls': 'far fa-file-excel',
+        'txt': 'far fa-file-alt',
+        'zip': 'far fa-file-archive',
+        'image': 'far fa-file-image',
+        'other': 'far fa-file'
+      };
+      return icons[fileType] || icons['other'];
+    }
+
+    function getFileColor(fileType) {
+      const colors = {
+        'pdf': '#F44336',
+        'doc': '#2196F3',
+        'ppt': '#FF9800',
+        'xls': '#4CAF50',
+        'txt': '#9E9E9E',
+        'zip': '#795548',
+        'image': '#E91E63',
+        'other': '#607D8B'
+      };
+      return colors[fileType] || colors['other'];
+    }
+
+    function formatFileSize(bytes) {
+      if (bytes === 0) return '0 Bytes';
+      const k = 1024;
+      const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+      const i = Math.floor(Math.log(bytes) / Math.log(k));
+      return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    }
+
+    // Render files in the grid
+    function renderFiles(files) {
+      filesGrid.innerHTML = '';
+
+      files.forEach(file => {
+        const fileCard = document.createElement('div');
+        fileCard.className = 'file-card';
+        fileCard.innerHTML = `
+                    <div class="file-icon" style="background: ${file.color}">
+                        <i class="${file.icon}"></i>
+                    </div>
+                    <div class="file-name">${file.name}</div>
+                    <div class="file-details">
+                        <span>${file.size}</span>
+                        <span>${file.date}</span>
+                    </div>
+                    <div class="file-actions">
+                        <button class="action-btn download-btn" data-id="${file.id}">
+                            <i class="fas fa-download"></i> Download
+                        </button>
+                        <button class="action-btn preview-btn" data-id="${file.id}">
+                            <i class="fas fa-eye"></i> Preview
+                        </button>
+                    </div>
+                `;
+        filesGrid.appendChild(fileCard);
+
+        // Add event listeners to action buttons
+        fileCard.querySelector('.download-btn').addEventListener('click', function () {
+          const fileId = this.getAttribute('data-id');
+          downloadFileById(fileId);
+        });
+
+        fileCard.querySelector('.preview-btn').addEventListener('click', function () {
+          const fileId = this.getAttribute('data-id');
+          showPreview(fileId);
+        });
+      });
+    }
+
+    // File actions
+    function downloadFileById(fileId) {
+      const file = [...sampleFiles, ...uploadedFiles].find(f => f.id == fileId);
+      if (file) {
+        // In a real app, this would download the actual file
+        alert(`Downloading: ${file.name}`);
+      }
+    }
+
+    function showPreview(fileId) {
+      const file = [...sampleFiles, ...uploadedFiles].find(f => f.id == fileId);
+      if (file) {
+        selectedFile = file;
+
+        // Update preview page with file info
+        previewFileName.textContent = file.name;
+        previewFileIcon.innerHTML = `<i class="${file.icon}"></i>`;
+        previewFileIcon.style.background = file.color;
+        previewFileSize.textContent = file.size;
+        previewFileType.textContent = file.type.toUpperCase();
+        previewFileDate.textContent = file.date;
+        previewFileOwner.textContent = `By: ${file.owner}`;
+
+        // Set up preview content based on file type
+        setupPreview(file);
+
+        // Load reviews for this file
+        loadReviews(file.id);
+
+        // Show preview page
+        showPage(previewPage);
+      }
+    }
+
+    function setupPreview(file) {
+      // Clear previous preview
+      previewArea.innerHTML = '';
+
+      // Different preview based on file type
+      if (file.type === 'pdf') {
+        previewArea.innerHTML = `
+                    <iframe src="https://mozilla.github.io/pdf.js/web/viewer.html?file=https://raw.githubusercontent.com/mozilla/pdf.js/ba2edeae/web/compressed.tracemonkey-pldi-09.pdf" 
+                            width="100%" height="500px" style="border: none; border-radius: 8px;"></iframe>
+                    <p>PDF preview powered by PDF.js</p>
+                `;
+      } else if (file.type === 'image') {
+        previewArea.innerHTML = `
+                    <img src="https://placehold.co/600x400/2c3e50/ffffff?text=Image+Preview" 
+                         alt="${file.name}" style="max-width: 100%; border-radius: 8px;">
+                    <p>Image preview</p>
+                `;
+      } else {
+        previewArea.innerHTML = `
+                    <i class="fas fa-file" style="font-size: 64px; margin-bottom: 16px; opacity: 0.7;"></i>
+                    <p>Preview not available for this file type. Download to view the file.</p>
+                `;
+      }
+    }
+
+    function downloadFile() {
+      if (selectedFile) {
+        // In a real app, this would download the actual file
+        alert(`Downloading: ${selectedFile.name}`);
+      }
+    }
+
+    function loadReviews(fileId) {
+      const fileReviews = sampleReviews.filter(review => review.fileId == fileId);
+      reviewsList.innerHTML = '';
+
+      if (fileReviews.length === 0) {
+        reviewsList.innerHTML = '<div class="no-reviews">No reviews yet. Be the first to review!</div>';
+        return;
+      }
+
+      fileReviews.forEach(review => {
+        const reviewItem = document.createElement('div');
+        reviewItem.className = 'review-item';
+        reviewItem.innerHTML = `
+                    <div class="review-header">
+                        <div class="reviewer">${review.user}</div>
+                        <div class="review-date">${review.date}</div>
+                    </div>
+                    <div class="review-rating">${getStarRating(review.rating)}</div>
+                    <div class="review-comment">${review.comment}</div>
+                `;
+        reviewsList.appendChild(reviewItem);
+      });
+    }
+
+    function getStarRating(rating) {
+      let stars = '';
+      for (let i = 1; i <= 5; i++) {
+        stars += i <= rating ? '★' : '☆';
+      }
+      return stars;
+    }
+
+    // Review functionality
+    function showReviewModal() {
+      if (selectedFile) {
+        document.getElementById('reviewFileName').textContent = selectedFile.name;
+        document.getElementById('reviewFileMeta').textContent = `${selectedFile.type.toUpperCase()} • ${selectedFile.size}`;
+        document.getElementById('reviewFileIcon').innerHTML = `<i class="${selectedFile.icon}"></i>`;
+        document.getElementById('reviewFileIcon').style.background = selectedFile.color;
+
+        // Reset rating and text
+        currentRating = 0;
+        ratingStars.forEach(star => star.classList.remove('active'));
+        reviewText.value = '';
+
+        reviewModal.classList.add('active');
+      }
+    }
+
+    function handleRating(e) {
+      const value = parseInt(e.target.getAttribute('data-value'));
+      currentRating = value;
+
+      ratingStars.forEach(star => {
+        const starValue = parseInt(star.getAttribute('data-value'));
+        if (starValue <= value) {
+          star.classList.add('active');
+          star.textContent = '★';
+        } else {
+          star.classList.remove('active');
+          star.textContent = '☆';
+        }
+      });
+    }
+
+    function handleReviewSubmit() {
+      if (currentRating === 0) {
+        alert('Please select a rating');
+        return;
+      }
+
+      const review = {
+        id: sampleReviews.length + 1,
+        fileId: selectedFile.id,
+        user: currentUser,
+        rating: currentRating,
+        comment: reviewText.value,
+        date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+      };
+
+      sampleReviews.push(review);
+      loadReviews(selectedFile.id);
+      reviewModal.classList.remove('active');
+      alert('Thank you for your review!');
+    }
+
+    // Utility functions
+    function closeModals() {
+      uploadModal.classList.remove('active');
+      reviewModal.classList.remove('active');
+    }
+
+    function showPage(page) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      page.classList.add('active');
+    }
+
+    function shakeElement(element) {
+      element.classList.add('shake');
+      setTimeout(() => element.classList.remove('shake'), 500);
+    }
+
+    // Initialize the app when the DOM is loaded
+    document.addEventListener('DOMContentLoaded', init);
+  </script>
 </body>
-</html> -
+
+</html>
