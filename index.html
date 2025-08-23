@@ -3,956 +3,519 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EduShare - File Sharing for Education</title>
+    <title>EduShare - Login</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        :root {
+            --accent1: #4a6fa5;
+            --accent2: #2c3e50;
+            --accent-light: #ffd43b;
+            --bg1: #0f1226;
+            --glass: rgba(255, 255, 255, 0.06);
+            --glass-2: rgba(255, 255, 255, 0.03);
+            --text: #f7f7fb;
+        }
+
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        
+
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+
         body {
-            background-color: #f5f7fa;
-            color: #333;
-            line-height: 1.6;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-        
-        /* Header Styles */
-        header {
-            background: linear-gradient(135deg, #4a6fa5, #2c3e50);
-            color: white;
-            padding: 20px 0;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-        
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        
-        .logo i {
-            font-size: 2.5rem;
-        }
-        
-        .logo h1 {
-            font-size: 2rem;
-            font-weight: 700;
-        }
-        
-        nav ul {
-            display: flex;
-            list-style: none;
-            gap: 30px;
-        }
-        
-        nav a {
-            color: white;
-            text-decoration: none;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-        
-        nav a:hover {
-            color: #ffd43b;
-        }
-        
-        .auth-buttons {
-            display: flex;
-            gap: 15px;
-        }
-        
-        .btn {
-            padding: 10px 20px;
-            border-radius: 50px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
-            border: none;
-        }
-        
-        .btn-outline {
-            border: 2px solid white;
-            color: white;
-            background: transparent;
-        }
-        
-        .btn-outline:hover {
-            background: white;
-            color: #4a6fa5;
-        }
-        
-        .btn-primary {
-            background: #ffd43b;
-            color: #2c3e50;
-            border: 2px solid #ffd43b;
-        }
-        
-        .btn-primary:hover {
-            background: transparent;
-            color: #ffd43b;
-        }
-        
-        /* Upload Section */
-        .upload-section {
-            padding: 40px 0;
-            background: white;
-        }
-        
-        .upload-container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: #f9fafc;
-            border-radius: 12px;
-            padding: 30px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
-        }
-        
-        .upload-area {
-            border: 2px dashed #4a6fa5;
-            border-radius: 10px;
-            padding: 40px;
-            text-align: center;
-            margin-bottom: 30px;
-            transition: all 0.3s ease;
-            background: #eef5ff;
-        }
-        
-        .upload-area.active {
-            background: #d6e4ff;
-            border-color: #2c3e50;
-        }
-        
-        .upload-area i {
-            font-size: 3rem;
-            color: #4a6fa5;
-            margin-bottom: 15px;
-        }
-        
-        .upload-area h3 {
-            font-size: 1.5rem;
-            margin-bottom: 10px;
-            color: #2c3e50;
-        }
-        
-        .upload-area p {
-            color: #666;
-            margin-bottom: 20px;
-        }
-        
-        .file-input {
-            display: none;
-        }
-        
-        .file-list {
-            margin-top: 30px;
-        }
-        
-        .file-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px;
-            background: white;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-            transition: transform 0.2s ease;
-        }
-        
-        .file-item:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-        
-        .file-info {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            flex: 1;
-        }
-        
-        .file-icon {
-            width: 50px;
-            height: 50px;
-            background: #eef5ff;
-            border-radius: 10px;
+            background: radial-gradient(1000px 600px at 10% 10%, rgba(74, 111, 165, 0.08), transparent 10%),
+                        radial-gradient(900px 500px at 90% 90%, rgba(255, 212, 59, 0.06), transparent 12%),
+                        linear-gradient(180deg, var(--accent2) 0%, #151728 100%);
+            color: var(--text);
             display: flex;
             align-items: center;
             justify-content: center;
+            padding: 40px;
+            -webkit-font-smoothing: antialiased;
         }
-        
-        .file-icon i {
-            color: #4a6fa5;
-            font-size: 1.5rem;
+
+        /* floating particle blobs */
+        .blob {
+            position: absolute;
+            filter: blur(40px) saturate(120%);
+            opacity: 0.85;
+            mix-blend-mode: screen;
+            border-radius: 50%;
+            animation: float 8s ease-in-out infinite;
         }
-        
-        .file-details {
-            flex: 1;
+
+        .blob.a {
+            width: 420px;
+            height: 420px;
+            background: linear-gradient(135deg, var(--accent1), #3b5998);
+            left: -120px;
+            top: -60px;
+            animation-duration: 10s;
         }
-        
-        .file-details h4 {
-            font-size: 1.1rem;
-            margin-bottom: 5px;
-            color: #2c3e50;
+
+        .blob.b {
+            width: 320px;
+            height: 320px;
+            background: linear-gradient(135deg, var(--accent-light), #78a6ff);
+            right: -100px;
+            bottom: -80px;
+            animation-duration: 12s;
+            opacity: 0.6;
         }
-        
-        .file-details p {
-            color: #666;
-            font-size: 0.9rem;
+
+        @keyframes float {
+            0% { transform: translateY(0) translateX(0); }
+            50% { transform: translateY(-24px) translateX(12px); }
+            100% { transform: translateY(0) translateX(0); }
         }
-        
-        .file-actions {
+
+        /* main container */
+        .wrap {
+            width: 100%;
+            max-width: 980px;
+            display: grid;
+            grid-template-columns: 1fr 420px;
+            gap: 32px;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* left: hero */
+        .hero {
+            padding: 28px;
+            color: var(--text);
+        }
+
+        .logo-anim {
+            width: 160px;
+            height: 160px;
+            border-radius: 18px;
+            background: conic-gradient(from 200deg, var(--accent1), #3b5998, var(--accent-light));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6), inset 0 -6px 30px rgba(255, 255, 255, 0.06);
+            transform: rotate(-12deg) translateZ(0);
+            animation: logo-bounce 1600ms ease infinite;
+        }
+
+        .logo-anim i {
+            font-size: 70px;
+            color: white;
+            filter: drop-shadow(0 6px 18px rgba(0, 0, 0, 0.45));
+        }
+
+        @keyframes logo-bounce {
+            0% { transform: rotate(-12deg) translateY(0); }
+            50% { transform: rotate(-10deg) translateY(-12px); }
+            100% { transform: rotate(-12deg) translateY(0); }
+        }
+
+        h1 {
+            font-size: 32px;
+            margin: 18px 0 8px;
+            letter-spacing: 0.6px;
+        }
+
+        p.lead {
+            opacity: 0.85;
+            margin: 0 0 18px;
+            line-height: 1.35;
+        }
+
+        .features {
+            display: flex;
+            gap: 12px;
+            margin-top: 18px;
+            flex-wrap: wrap;
+        }
+
+        .chip {
+            padding: 8px 12px;
+            background: var(--glass);
+            backdrop-filter: blur(6px);
+            border-radius: 999px;
+            font-size: 13px;
+            opacity: 0.95;
+        }
+
+        /* right: login card */
+        .card {
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.02));
+            border-radius: 18px;
+            padding: 22px;
+            box-shadow: 0 10px 40px rgba(6, 6, 10, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(8px);
+        }
+
+        .card h2 {
+            margin: 6px 0 14px;
+            font-size: 18px;
+        }
+
+        .form-row {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .input {
+            background: var(--glass-2);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            padding: 12px 14px;
+            border-radius: 12px;
+            color: var(--text);
+            outline: none;
+            font-size: 15px;
+            transition: transform .18s ease, box-shadow .18s ease, border-color .12s;
+        }
+
+        .input:focus {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(12, 12, 20, 0.45);
+            border-color: rgba(255, 255, 255, 0.09);
+        }
+
+        .btn {
+            margin-top: 6px;
+            background: linear-gradient(90deg, var(--accent1), var(--accent-light));
+            border: none;
+            color: #111;
+            padding: 12px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 0 8px 30px rgba(74, 111, 165, 0.12);
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 35px rgba(74, 111, 165, 0.2);
+        }
+
+        .btn.secondary {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        .btn.secondary:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .small-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+            font-size: 13px;
+            opacity: 0.9;
+        }
+
+        .socials {
             display: flex;
             gap: 10px;
+            margin-top: 14px;
         }
-        
-        .action-btn {
-            padding: 8px 15px;
-            border-radius: 5px;
-            font-size: 0.9rem;
+
+        .social {
+            flex: 1;
+            padding: 10px;
+            border-radius: 10px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.03);
             cursor: pointer;
-            border: none;
+            font-weight: 600;
             transition: all 0.2s ease;
         }
-        
-        .btn-delete {
-            background: #ffebee;
-            color: #e53935;
-            border: 1px solid #ffcdd2;
+
+        .social:hover {
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateY(-2px);
         }
-        
-        .btn-delete:hover {
-            background: #ffcdd2;
-        }
-        
-        .btn-download {
-            background: #e8f5e9;
-            color: #43a047;
-            border: 1px solid #c8e6c9;
-        }
-        
-        .btn-download:hover {
-            background: #c8e6c9;
-        }
-        
-        .btn-preview {
-            background: #e3f2fd;
-            color: #1976d2;
-            border: 1px solid #bbdefb;
-        }
-        
-        .btn-preview:hover {
-            background: #bbdefb;
-        }
-        
-        /* Preview Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .modal-content {
-            background: white;
-            border-radius: 12px;
-            width: 90%;
-            max-width: 800px;
-            max-height: 90vh;
-            overflow: hidden;
+
+        .or {
             display: flex;
-            flex-direction: column;
-        }
-        
-        .modal-header {
-            padding: 20px;
-            border-bottom: 1px solid #eee;
-            display: flex;
-            justify-content: space-between;
             align-items: center;
+            gap: 12px;
+            margin: 14px 0;
+            opacity: 0.7;
         }
-        
-        .modal-header h3 {
-            color: #2c3e50;
-        }
-        
-        .close-btn {
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: #666;
-        }
-        
-        .modal-body {
-            padding: 20px;
-            overflow-y: auto;
+
+        .or:before, .or:after {
+            content: "";
+            height: 1px;
+            background: rgba(255, 255, 255, 0.03);
             flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            border-radius: 2px;
         }
-        
-        .preview-container {
-            width: 100%;
-            max-width: 100%;
-            margin-bottom: 20px;
-            border: 1px solid #eee;
-            border-radius: 8px;
-            padding: 20px;
-            background: #f9f9f9;
-        }
-        
-        .preview-image {
-            max-width: 100%;
-            max-height: 400px;
-            display: block;
-            margin: 0 auto;
-        }
-        
-        .preview-text {
-            white-space: pre-wrap;
-            font-family: monospace;
-            background: white;
-            padding: 15px;
-            border-radius: 5px;
-            max-height: 400px;
-            overflow-y: auto;
-        }
-        
-        .preview-unsupported {
-            text-align: center;
-            padding: 40px;
-            color: #666;
-        }
-        
-        .preview-unsupported i {
-            font-size: 3rem;
-            margin-bottom: 15px;
-            color: #4a6fa5;
-        }
-        
-        .modal-footer {
-            padding: 20px;
-            border-top: 1px solid #eee;
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-        }
-        
-        /* Features Section */
-        .features {
-            padding: 80px 0;
-            background: #f5f7fa;
-        }
-        
-        .section-title {
-            text-align: center;
-            margin-bottom: 60px;
-        }
-        
-        .section-title h2 {
-            font-size: 2.5rem;
-            color: #2c3e50;
-            margin-bottom: 20px;
-        }
-        
-        .section-title p {
-            font-size: 1.1rem;
-            color: #666;
-            max-width: 700px;
-            margin: 0 auto;
-        }
-        
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-        
-        .feature-card {
-            background: white;
-            border-radius: 12px;
-            padding: 30px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s ease;
-        }
-        
-        .feature-card:hover {
-            transform: translateY(-5px);
-        }
-        
-        .feature-icon {
-            background: #eef5ff;
-            width: 70px;
-            height: 70px;
+
+        /* small animated sparks (top right) */
+        .spark {
+            position: absolute;
+            right: 22px;
+            top: 12px;
+            width: 8px;
+            height: 8px;
             border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.7);
+            opacity: 0.08;
+            box-shadow: 0 0 14px rgba(255, 255, 255, 0.12);
+            animation: blink 2s linear infinite;
         }
-        
-        .feature-icon i {
-            font-size: 2rem;
-            color: #4a6fa5;
+
+        .spark.s2 {
+            right: 60px;
+            top: 34px;
+            animation-delay: .4s;
         }
-        
-        .feature-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 15px;
-            color: #2c3e50;
+
+        .spark.s3 {
+            right: 30px;
+            top: 66px;
+            animation-delay: .9s;
         }
-        
-        /* Footer */
-        footer {
-            background: #2c3e50;
-            color: white;
-            padding: 60px 0 30px;
+
+        @keyframes blink {
+            0% { transform: scale(.6); opacity: .05; }
+            50% { transform: scale(1.6); opacity: .9; }
+            100% { transform: scale(.6); opacity: .05; }
         }
-        
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 40px;
-            margin-bottom: 40px;
+
+        /* error shake */
+        .shake {
+            animation: shake .5s;
         }
-        
-        .footer-column h3 {
-            font-size: 1.3rem;
-            margin-bottom: 20px;
-            color: #ffd43b;
+
+        @keyframes shake {
+            10% { transform: translateX(-6px); }
+            30% { transform: translateX(6px); }
+            50% { transform: translateX(-6px); }
+            70% { transform: translateX(6px); }
+            100% { transform: translateX(0); }
         }
-        
-        .footer-column ul {
-            list-style: none;
-        }
-        
-        .footer-column ul li {
-            margin-bottom: 10px;
-        }
-        
-        .footer-column a {
-            color: #ccc;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-        
-        .footer-column a:hover {
-            color: #ffd43b;
-        }
-        
-        .copyright {
-            text-align: center;
-            padding-top: 30px;
-            border-top: 1px solid #4a6fa5;
-            color: #ccc;
-        }
-        
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .header-content {
-                flex-direction: column;
-                gap: 20px;
+
+        /* responsiveness */
+        @media (max-width: 880px) {
+            .wrap {
+                grid-template-columns: 1fr;
+                gap: 18px;
+                padding: 18px;
             }
             
-            nav ul {
-                gap: 15px;
-                flex-wrap: wrap;
-                justify-content: center;
+            .hero {
+                order: 2;
+                text-align: center;
             }
             
-            .upload-area {
-                padding: 20px;
+            .logo-anim {
+                margin: 0 auto;
             }
-            
-            .file-item {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 15px;
-            }
-            
-            .file-actions {
-                align-self: flex-end;
-            }
-            
-            .feature-card {
-                padding: 20px;
-            }
-        }
-        
-        /* Empty state */
-        .empty-state {
-            text-align: center;
-            padding: 40px;
-            color: #666;
-        }
-        
-        .empty-state i {
-            font-size: 4rem;
-            margin-bottom: 20px;
-            color: #ccc;
-        }
-        
-        .empty-state p {
-            font-size: 1.2rem;
-            margin-bottom: 20px;
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <header>
-        <div class="container">
-            <div class="header-content">
-                <div class="logo">
-                    <i class="fas fa-file-import"></i>
-                    <h1>EduShare</h1>
-                </div>
-                <nav>
-                    <ul>
-                        <li><a href="#">Home</a></li>
-                        <li><a href="#">Files</a></li>
-                        <li><a href="#">Classes</a></li>
-                        <li><a href="#">Resources</a></li>
-                        <li><a href="#">Contact</a></li>
-                    </ul>
-                </nav>
-                <div class="auth-buttons">
-                    <a href="#" class="btn btn-outline">Log In</a>
-                    <a href="#" class="btn btn-primary">Sign Up</a>
-                </div>
+    <div class="blob a" aria-hidden="true"></div>
+    <div class="blob b" aria-hidden="true"></div>
+
+    <div class="wrap" role="main">
+        <div class="hero">
+            <div class="logo-anim" aria-hidden="true">
+                <i class="fas fa-file-import"></i>
+            </div>
+
+            <h1>EDUSHARE</h1>
+            <p class="lead">Share educational resources securely. Upload, preview, and collaborate on documents with your classmates and teachers.</p>
+
+            <div class="features" aria-hidden="true">
+                <div class="chip">Secure Sharing</div>
+                <div class="chip">Class Groups</div>
+                <div class="chip">Annotations</div>
             </div>
         </div>
-    </header>
 
-    <!-- Upload Section -->
-    <section class="upload-section">
-        <div class="container">
-            <div class="upload-container">
-                <h2 style="text-align: center; margin-bottom: 30px; color: #2c3e50;">Upload Educational Files</h2>
-                
-                <div class="upload-area" id="dropArea">
-                    <i class="fas fa-cloud-upload-alt"></i>
-                    <h3>Drag & Drop Files Here</h3>
-                    <p>Supported formats: PDF, DOC, DOCX, PPT, TXT, JPG, PNG, GIF</p>
-                    <p>Maximum file size: 10MB</p>
-                    <button class="btn btn-primary" id="browseBtn">Browse Files</button>
-                    <input type="file" id="fileInput" class="file-input" multiple>
+        <div class="card" id="card">
+            <div style="position:relative">
+                <span class="spark"></span>
+                <span class="spark s2"></span>
+                <span class="spark s3"></span>
+                <h2>EDUSHARE LOGIN</h2>
+            </div>
+
+            <div class="form-row">
+                <input id="username" class="input" type="text" placeholder="Enter username or email" autocomplete="username" />
+                <input id="password" class="input" type="password" placeholder="Password" autocomplete="current-password" />
+                <button id="loginBtn" class="btn">LOGIN</button>
+                <button id="guestBtn" class="btn secondary">Continue as Guest</button>
+
+                <div class="or"><span>or</span></div>
+
+                <div class="socials">
+                    <div class="social" id="googleBtn">Google</div>
+                    <div class="social" id="microsoftBtn">Microsoft</div>
+                </div>
+
+                <div class="small-row" style="margin-top:12px">
+                    <label style="display:flex;align-items:center;gap:8px">
+                        <input type="checkbox" id="rememberMe" /> Remember me
+                    </label>
+                    <a href="#" style="color:rgba(255,255,255,0.8);text-decoration:none">Forgot password?</a>
                 </div>
                 
-                <div class="file-list" id="fileListContainer">
-                    <h3 style="margin-bottom: 20px; color: #2c3e50;">Uploaded Files</h3>
-                    <div id="fileList">
-                        <!-- Files will be displayed here -->
-                    </div>
+                <div class="small-row" style="justify-content: center; margin-top: 20px;">
+                    <span>Don't have an account? <a href="#" style="color:var(--accent-light);text-decoration:none">Sign up</a></span>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Preview Modal -->
-    <div class="modal" id="previewModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 id="modalTitle">File Preview</h3>
-                <button class="close-btn" id="closeModal">&times;</button>
-            </div>
-            <div class="modal-body" id="modalBody">
-                <!-- Preview content will be displayed here -->
-            </div>
-            <div class="modal-footer">
-                <button class="action-btn btn-download" id="downloadBtn">Download</button>
-                <button class="action-btn" id="closeBtn">Close</button>
             </div>
         </div>
     </div>
 
-    <!-- Features Section -->
-    <section class="features">
-        <div class="container">
-            <div class="section-title">
-                <h2>Why Use EduShare?</h2>
-                <p>Our platform is specifically designed for educational file sharing with these powerful features</p>
-            </div>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-lock"></i>
-                    </div>
-                    <h3>Secure Sharing</h3>
-                    <p>Control who has access to your files with password protection and expiration dates for shared links.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-users"></i>
-                    </div>
-                    <h3>Class Groups</h3>
-                    <p>Create groups for your classes and share files with all students at once.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-comments"></i>
-                    </div>
-                    <h3>Annotations & Feedback</h3>
-                    <p>Add comments and annotations to documents for better collaboration.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-column">
-                    <h3>EduShare</h3>
-                    <p>Making educational file sharing simple, secure, and effective for teachers and students worldwide.</p>
-                </div>
-                <div class="footer-column">
-                    <h3>Quick Links</h3>
-                    <ul>
-                        <li><a href="#">Home</a></li>
-                        <li><a href="#">Files</a></li>
-                        <li><a href="#">Classes</a></li>
-                        <li><a href="#">Resources</a></li>
-                        <li><a href="#">Contact</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column">
-                    <h3>Legal</h3>
-                    <ul>
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Terms of Service</a></li>
-                        <li><a href="#">Copyright Notice</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column">
-                    <h3>Contact Us</h3>
-                    <ul>
-                        <li><i class="fas fa-envelope"></i> support@edushare.com</li>
-                        <li><i class="fas fa-phone"></i> +1 (555) 123-4567</li>
-                        <li><i class="fas fa-map-marker-alt"></i> Education Street 123, Academic City</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="copyright">
-                <p>&copy; 2023 EduShare. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
-
     <script>
-        // File storage and management functionality
+        // Basic login interaction + animations
+        const loginBtn = document.getElementById('loginBtn');
+        const guestBtn = document.getElementById('guestBtn');
+        const card = document.getElementById('card');
+        const rememberMe = document.getElementById('rememberMe');
+
+        // Check if user was previously logged in
         document.addEventListener('DOMContentLoaded', function() {
-            const dropArea = document.getElementById('dropArea');
-            const fileInput = document.getElementById('fileInput');
-            const browseBtn = document.getElementById('browseBtn');
-            const fileList = document.getElementById('fileList');
-            const fileListContainer = document.getElementById('fileListContainer');
-            const previewModal = document.getElementById('previewModal');
-            const modalTitle = document.getElementById('modalTitle');
-            const modalBody = document.getElementById('modalBody');
-            const closeModal = document.getElementById('closeModal');
-            const closeBtn = document.getElementById('closeBtn');
-            const downloadBtn = document.getElementById('downloadBtn');
+            const savedUsername = localStorage.getItem('edushare_username');
+            const savedRememberMe = localStorage.getItem('edushare_remember') === 'true';
             
-            let currentFile = null;
-            let files = JSON.parse(localStorage.getItem('edushare_files')) || [];
-            
-            // Initialize the file list
-            renderFileList();
-            
-            // Open file dialog when clicking the browse button
-            browseBtn.addEventListener('click', function() {
-                fileInput.click();
+            if (savedUsername && savedRememberMe) {
+                document.getElementById('username').value = savedUsername;
+                rememberMe.checked = true;
+            }
+        });
+
+        function showToast(msg) {
+            const t = document.createElement('div');
+            t.textContent = msg;
+            Object.assign(t.style, {
+                position: 'fixed',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                bottom: '28px',
+                background: 'rgba(0, 0, 0, 0.6)',
+                color: '#fff',
+                padding: '10px 14px',
+                borderRadius: '10px',
+                zIndex: 9999,
+                transition: 'opacity 0.3s ease'
             });
-            
-            // Handle file selection
-            fileInput.addEventListener('change', function() {
-                handleFiles(this.files);
-            });
-            
-            // Drag and drop functionality
-            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-                dropArea.addEventListener(eventName, preventDefaults, false);
-            });
-            
-            function preventDefaults(e) {
-                e.preventDefault();
-                e.stopPropagation();
+            document.body.appendChild(t);
+            setTimeout(() => t.style.opacity = '0', 1800);
+            setTimeout(() => t.remove(), 2600);
+        }
+
+        function loginUser(username) {
+            // Save login state
+            if (rememberMe.checked) {
+                localStorage.setItem('edushare_username', username);
+                localStorage.setItem('edushare_remember', 'true');
+            } else {
+                localStorage.removeItem('edushare_username');
+                localStorage.removeItem('edushare_remember');
             }
             
-            ['dragenter', 'dragover'].forEach(eventName => {
-                dropArea.addEventListener(eventName, highlight, false);
-            });
+            // Set logged in state
+            localStorage.setItem('edushare_loggedin', 'true');
+            localStorage.setItem('edushare_user', username);
             
-            ['dragleave', 'drop'].forEach(eventName => {
-                dropArea.addEventListener(eventName, unhighlight, false);
-            });
+            // Show success message
+            showToast('Login successful! Redirecting...');
             
-            function highlight() {
-                dropArea.classList.add('active');
+            // Redirect to main EduShare page after a short delay
+            setTimeout(() => {
+                window.location.href = 'index.html'; // Redirect to main EduShare page
+            }, 1500);
+        }
+
+        loginBtn.addEventListener('click', () => {
+            const u = document.getElementById('username').value.trim();
+            const p = document.getElementById('password').value.trim();
+
+            // Simple validation
+            if (!u || !p) {
+                card.classList.remove('shake');
+                void card.offsetWidth; // restart animation
+                card.classList.add('shake');
+                showToast('Please enter both username and password');
+                return;
             }
+
+            // For demo purposes - any password works, but "edushare" gives special message
+            loginBtn.disabled = true;
+            loginBtn.textContent = 'Logging in...';
             
-            function unhighlight() {
-                dropArea.classList.remove('active');
-            }
-            
-            dropArea.addEventListener('drop', handleDrop, false);
-            
-            function handleDrop(e) {
-                const dt = e.dataTransfer;
-                const files = dt.files;
-                handleFiles(files);
-            }
-            
-            function handleFiles(fileList) {
-                if (fileList.length > 0) {
-                    for (let i = 0; i < fileList.length; i++) {
-                        const file = fileList[i];
-                        
-                        // Check file size (max 10MB)
-                        if (file.size > 10 * 1024 * 1024) {
-                            alert(`File ${file.name} is too large. Maximum size is 10MB.`);
-                            continue;
-                        }
-                        
-                        // Create a file object with metadata
-                        const fileObject = {
-                            id: Date.now() + i,
-                            name: file.name,
-                            type: file.type,
-                            size: file.size,
-                            uploadDate: new Date().toISOString(),
-                            data: null
-                        };
-                        
-                        // Read the file content
-                        const reader = new FileReader();
-                        reader.onload = function(e) {
-                            fileObject.data = e.target.result;
-                            files.push(fileObject);
-                            localStorage.setItem('edushare_files', JSON.stringify(files));
-                            renderFileList();
-                        };
-                        
-                        if (file.type.startsWith('text/') || file.type === 'application/pdf') {
-                            reader.readAsText(file);
-                        } else {
-                            reader.readAsDataURL(file);
-                        }
-                    }
-                }
-            }
-            
-            function renderFileList() {
-                if (files.length === 0) {
-                    fileList.innerHTML = `
-                        <div class="empty-state">
-                            <i class="fas fa-folder-open"></i>
-                            <p>No files uploaded yet</p>
-                            <p>Drag and drop files above or click "Browse Files" to get started</p>
-                        </div>
-                    `;
-                    return;
-                }
+            setTimeout(() => {
+                loginBtn.disabled = false;
+                loginBtn.textContent = 'LOGIN';
                 
-                fileList.innerHTML = '';
-                
-                files.forEach(file => {
-                    const fileItem = document.createElement('div');
-                    fileItem.className = 'file-item';
-                    fileItem.dataset.id = file.id;
-                    
-                    // Get appropriate icon based on file type
-                    let fileIcon = 'file';
-                    if (file.type.includes('image')) fileIcon = 'file-image';
-                    else if (file.type.includes('pdf')) fileIcon = 'file-pdf';
-                    else if (file.type.includes('word')) fileIcon = 'file-word';
-                    else if (file.type.includes('powerpoint') || file.type.includes('presentation')) fileIcon = 'file-powerpoint';
-                    else if (file.type.includes('text')) fileIcon = 'file-alt';
-                    
-                    // Format file size
-                    const fileSize = formatFileSize(file.size);
-                    
-                    fileItem.innerHTML = `
-                        <div class="file-info">
-                            <div class="file-icon">
-                                <i class="fas fa-${fileIcon}"></i>
-                            </div>
-                            <div class="file-details">
-                                <h4>${file.name}</h4>
-                                <p>${fileSize} • Uploaded: ${new Date(file.uploadDate).toLocaleDateString()}</p>
-                            </div>
-                        </div>
-                        <div class="file-actions">
-                            <button class="action-btn btn-preview preview-btn">Preview</button>
-                            <button class="action-btn btn-download download-btn">Download</button>
-                            <button class="action-btn btn-delete delete-btn">Delete</button>
-                        </div>
-                    `;
-                    
-                    fileList.appendChild(fileItem);
-                });
-                
-                // Add event listeners to buttons
-                document.querySelectorAll('.preview-btn').forEach(btn => {
-                    btn.addEventListener('click', function() {
-                        const fileId = this.closest('.file-item').dataset.id;
-                        previewFile(parseInt(fileId));
-                    });
-                });
-                
-                document.querySelectorAll('.download-btn').forEach(btn => {
-                    btn.addEventListener('click', function() {
-                        const fileId = this.closest('.file-item').dataset.id;
-                        downloadFile(parseInt(fileId));
-                    });
-                });
-                
-                document.querySelectorAll('.delete-btn').forEach(btn => {
-                    btn.addEventListener('click', function() {
-                        const fileId = this.closest('.file-item').dataset.id;
-                        deleteFile(parseInt(fileId));
-                    });
-                });
-            }
-            
-            function formatFileSize(bytes) {
-                if (bytes < 1024) return bytes + ' bytes';
-                else if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
-                else return (bytes / 1048576).toFixed(1) + ' MB';
-            }
-            
-            function previewFile(fileId) {
-                const file = files.find(f => f.id === fileId);
-                if (!file) return;
-                
-                currentFile = file;
-                modalTitle.textContent = `Preview: ${file.name}`;
-                modalBody.innerHTML = '';
-                
-                if (file.type.startsWith('image/')) {
-                    modalBody.innerHTML = `
-                        <div class="preview-container">
-                            <img src="${file.data}" class="preview-image" alt="${file.name}">
-                        </div>
-                    `;
-                } else if (file.type.startsWith('text/')) {
-                    modalBody.innerHTML = `
-                        <div class="preview-container">
-                            <div class="preview-text">${file.data}</div>
-                        </div>
-                    `;
-                } else if (file.type === 'application/pdf') {
-                    // PDF.js would be better here, but for simplicity we'll use object
-                    modalBody.innerHTML = `
-                        <div class="preview-container">
-                            <object data="${file.data}" type="application/pdf" width="100%" height="500px">
-                                <div class="preview-unsupported">
-                                    <i class="fas fa-file-pdf"></i>
-                                    <p>PDF preview not available in your browser</p>
-                                    <p>Download the file to view it</p>
-                                </div>
-                            </object>
-                        </div>
-                    `;
+                if (p.toLowerCase() === 'edushare') {
+                    loginUser(u);
                 } else {
-                    modalBody.innerHTML = `
-                        <div class="preview-unsupported">
-                            <i class="fas fa-file"></i>
-                            <p>Preview not available for this file type</p>
-                            <p>Download the file to view it</p>
-                        </div>
-                    `;
+                    // Still allow login with any password for demo
+                    loginUser(u);
                 }
-                
-                previewModal.style.display = 'flex';
+            }, 1000);
+        });
+
+        guestBtn.addEventListener('click', () => {
+            showToast('Continuing as guest...');
+            localStorage.setItem('edushare_loggedin', 'true');
+            localStorage.setItem('edushare_user', 'Guest');
+            
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 1000);
+        });
+
+        // Simple confetti effect for successful login
+        function confettiBurst() {
+            const colors = ['#4a6fa5', '#ffd43b', '#2c3e50', '#78a6ff'];
+            for (let i = 0; i < 18; i++) {
+                const e = document.createElement('div');
+                document.body.appendChild(e);
+                Object.assign(e.style, {
+                    position: 'fixed',
+                    left: (50 + (Math.random() * 40 - 20)) + '%',
+                    top: (40 + Math.random() * 20) + '%',
+                    width: '8px',
+                    height: '12px',
+                    background: colors[i % colors.length],
+                    transform: 'translateY(0) rotate(' + (Math.random() * 360) + 'deg)',
+                    borderRadius: '2px',
+                    zIndex: 9999,
+                    opacity: 1
+                });
+                const dx = (Math.random() * 200 - 100), dy = -(100 + Math.random() * 200);
+                e.animate([
+                    { transform: `translateY(0) translateX(0) rotate(0deg)`, opacity: 1 },
+                    { transform: `translateY(${dy}px) translateX(${dx}px) rotate(${720 * Math.random()}deg)`, opacity: 0 }
+                ], { duration: 1400 + Math.random() * 800, easing: 'cubic-bezier(.2,.8,.2,1)' });
+                setTimeout(() => e.remove(), 2200);
             }
-            
-            function downloadFile(fileId) {
-                const file = files.find(f => f.id === fileId);
-                if (!file) return;
-                
-                let blob;
-                if (file.type.startsWith('text/') || file.type === 'application/pdf') {
-                    blob = new Blob([file.data], { type: file.type });
-                } else {
-                    // Convert data URL back to blob
-                    const byteString = atob(file.data.split(',')[1]);
-                    const mimeString = file.data.split(',')[0].split(':')[1].split(';')[0];
-                    const ab = new ArrayBuffer(byteString.length);
-                    const ia = new Uint8Array(ab);
-                    for (let i = 0; i < byteString.length; i++) {
-                        ia[i] = byteString.charCodeAt(i);
-                    }
-                    blob = new Blob([ab], { type: mimeString });
-                }
-                
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = file.name;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
-            }
-            
-            function deleteFile(fileId) {
-                if (confirm('Are you sure you want to delete this file?')) {
-                    files = files.filter(f => f.id !== fileId);
-                    localStorage.setItem('edushare_files', JSON.stringify(files));
-                    renderFileList();
-                }
-            }
-            
-            // Close modal functionality
-            closeModal.addEventListener('click', function() {
-                previewModal.style.display = 'none';
-            });
-            
-            closeBtn.addEventListener('click', function() {
-                previewModal.style.display = 'none';
-            });
-            
-            downloadBtn.addEventListener('click', function() {
-                if (currentFile) {
-                    downloadFile(currentFile.id);
-                    previewModal.style.display = 'none';
-                }
-            });
-            
-            // Close modal when clicking outside
-            window.addEventListener('click', function(event) {
-                if (event.target === previewModal) {
-                    previewModal.style.display = 'none';
-                }
-            });
+        }
+
+        // Social login buttons
+        document.getElementById('googleBtn').addEventListener('click', () => {
+            showToast('Google login selected');
+        });
+
+        document.getElementById('microsoftBtn').addEventListener('click', () => {
+            showToast('Microsoft login selected');
         });
     </script>
 </body>
